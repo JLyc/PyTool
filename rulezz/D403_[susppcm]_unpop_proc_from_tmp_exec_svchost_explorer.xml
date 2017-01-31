@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+  <ParentProcess>
+    <operator type="AND">
+      <Condition component="LiveGrid" property="Popularity" condition="less" value="1000" />
+      <Condition component="FileItem" property="Path" condition="starts" value="%TMP%" />
+    </operator>
+  </ParentProcess>
+  <Process>
+    <operator type="AND">
+      <Condition component="LiveGrid" property="Popularity" condition="greater" value="10000" />
+      <Condition component="FileItem" property="Path" condition="starts" value="%WINDIR%" />
+      <operator type="OR">
+        <Condition component="FileItem" property="Name" condition="is" value="explorer" />
+        <Condition component="FileItem" property="Name" condition="is" value="svchost" />
+      </operator>
+    </operator>
+  </Process>
+<name>Unpopular process originating in %TMP% directory executes svchost/explorer [D403]</name>
+</rule>

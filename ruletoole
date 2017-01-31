@@ -1,0 +1,90 @@
+import os
+from xml.dom import minidom, Node
+
+
+def saveCondition(operand, element, counter):
+    if operand.upper() == 'AND':
+        operation.append(element)
+    else:
+        try:
+            operation[mapvalue[str(counter)]].append(element)
+        except KeyError:
+            operation.append([element])
+            mapvalue[str(counter)] = len(operation) - 1
+
+
+def traverseTree(element):
+    global counter
+    counter += len(operation) + 1
+    for child in element.childNodes:
+        if child.nodeType == Node.ELEMENT_NODE:
+            if not child.hasChildNodes():
+                operand = child.parentNode.getAttribute('type')
+                saveCondition(operand, child, counter)
+            else:
+                traverseTree(child)
+
+
+def addToAll(part):
+    global sentences
+    for i in xrange(len(sentences)):
+        sentences[i] += part.getAttribute(
+            'component') + '-' + part.getAttribute(
+            'property') + ' ' + part.getAttribute(
+            'condition') + '=' + part.getAttribute('value') + " & "
+
+
+def callme(lsitPart):
+    global sentences
+    for part in lsitPart:
+        if isinstance(part, list):
+            sentences *= len(part)
+            callme(part)
+        else:
+            addToAll(part)
+
+
+# for filename in os.listdir('rulezz'):
+for filename in os.listdir('test'):
+    print "\n******************************************************************"
+    # doc = minidom.parse('a0100_active_setup_autostart_registry.xml')
+    # doc = minidom.parse('a0101_appinit_registry_entry_create.xml')
+    print filename
+    # doc = minidom.parse("rulezz/"+filename)
+    doc = minidom.parse("test/" + filename)
+
+    root = doc.getElementsByTagName('rule')
+    operations = doc.getElementsByTagName('Operations')
+    operation = doc.getElementsByTagName('Operation')
+
+    operation = []
+    counter = 0;
+    mapvalue = {}
+
+    for element in operations:  # Operations
+        if element.hasChildNodes():
+            elementChilds = element.childNodes
+
+            for child in elementChilds:  # Operation
+                if child.nodeType == Node.ELEMENT_NODE:
+
+                    for child1 in child.childNodes:  # operator
+                        if child1.nodeType == Node.ELEMENT_NODE:
+
+                            for child2 in child.childNodes:
+                                if child2.nodeType == Node.ELEMENT_NODE:
+                                    if not child2.hasChildNodes():
+                                        operand = child2.parentNode.getAttribute('type')
+                                        saveCondition(operand, child2, counter)
+                                    else:
+                                        traverseTree(child2)
+
+    print len(operation)
+    print operation
+
+    # pseudocode
+    sentences = [""]
+    callme(operation)
+
+    for i in range(1, len(operation)):
+        print sentences[i]

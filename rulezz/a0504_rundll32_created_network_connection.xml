@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule> 
+	<name>Network connection by rundll32.exe started from unpopular process [A0504]</name>
+	<severity>Information</severity>
+	<parentprocess>
+		<condition component="LiveGrid" property="Popularity" condition="less" value="10000" />
+	</parentprocess>
+	<process>
+		<Condition component="FileItem" property="Name" condition="is" value="rundll32" />
+	</process>
+	<operations>
+		<operation type="TcpIpConnect">
+			<condition component="Network" property="RemotePort" condition="isnot" value="" />
+		</operation>
+	</operations>
+</rule>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+   <process>
+      <Condition component="LiveGrid" property="Popularity" condition="less" value="1000" />
+  </process>
+  <Operations>
+    <Operation type="RegSetValue">
+       <operator type="AND">
+           <condition component="RegistryItem" property="Key" condition="ends" value="\Tcpip\Parameters\Interfaces\DhcpNameServer" />
+        </operator>
+     </Operation>
+  </Operations>
+<name>Tcpip Parameters DhcpNameServer registry entry modified by unpopular process [D211]</name>
+</rule>

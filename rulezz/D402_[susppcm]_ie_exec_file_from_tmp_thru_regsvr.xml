@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule>
+  <ParentProcess>
+    <operator type="AND">
+      <Condition component="LiveGrid" property="Popularity" condition="greater" value="10000" />
+      <Condition component="FileItem" property="Name" condition="is" value="iexplore" />
+      <operator type="OR">
+        <Condition component="FileItem" property="Path" condition="starts" value="%WINDIR%\winsx\" />
+        <Condition component="FileItem" property="Path" condition="starts" value="%PROGRAMFILES%\Internet Explorer\" />
+        <Condition component="FileItem" property="Path" condition="starts" value="%PROGRAMFILES(X86)%\Internet Explorer\" />
+      </operator>
+     </operator>
+  </ParentProcess>
+  <Process>
+     <operator type="OR">
+       <operator type="AND">
+           <Condition component="LiveGrid" property="Popularity" condition="greater" value="10000" />
+           <Condition component="FileItem" property="Path" condition="starts" value="%WINDIR%" />
+           <Condition component="FileItem" property="Name" condition="is" value="regsvr32" />
+           <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="%TMP%" /> 
+      </operator>
+       <operator type="AND">
+           <Condition component="LiveGrid" property="Popularity" condition="greater" value="10000" />
+           <Condition component="FileItem" property="Path" condition="starts" value="%WINDIR%" />
+           <Condition component="FileItem" property="Name" condition="is" value="cmd" />
+           <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="regsvr32" />
+           <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="%TMP%" />
+      </operator>
+     </operator>
+  </Process>
+  <Name>IExplorer tries to execute file form %TMP% thru regsvr32 trampoline [D402]</Name>
+</Rule>

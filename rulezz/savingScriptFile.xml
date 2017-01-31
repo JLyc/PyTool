@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule>
+  <Process >
+   <Condition component="FileItem" property="Name" condition="isnot" value="git" />
+  </Process>
+  <Operations>
+    <Operation type="WriteFile">
+      <operator type="AND">
+        <operator type="OR">
+          <Condition component="FileItem" property="Extension" condition="is" value="vbs" />
+          <Condition component="FileItem" property="Extension" condition="is" value="js" />
+        </operator>
+        <Condition component="FileItem" property="Path" condition="starts" value="%TMP%" />
+      </operator>
+    </Operation>
+  </Operations>
+  <name>Process has saved script files</name>
+</Rule>

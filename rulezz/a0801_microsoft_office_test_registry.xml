@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Microsoft Office Test registry entry was modified [A0801]</name>
+	<severity>Warning</severity>
+	<Operations>
+		<Operation type="RegSetValue">
+			<operator type="OR">
+				<Condition component="RegistryItem" property="Key" condition="is" value="HKCU\SOFTWARE\Microsoft\Office Test\Special\Perf" />
+				<Condition component="RegistryItem" property="Key" condition="is" value="HKLM\Software\Microsoft\Office test\Special\Perf\RuntimePerfMeasurement" />
+			</operator>
+		</Operation>
+	</Operations>
+</rule>

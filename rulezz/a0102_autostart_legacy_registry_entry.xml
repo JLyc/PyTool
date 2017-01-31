@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Legacy AutoStart registry entry was modified [A0102]</name>
+	<severity>Warning</severity>
+	<Operations>
+		<Operation type="RegSetValue">
+			<operator type="OR">		
+				<Condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\Load" />
+				<Condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\Run" />
+			</operator>
+		</Operation>
+	</Operations>
+</rule>

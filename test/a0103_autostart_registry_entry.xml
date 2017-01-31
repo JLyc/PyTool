@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Common AutoStart registry modified by unpopular process [A0103]</name>
+	<severity>Warning</severity>
+	<process>
+		<condition component="LiveGrid" property="Popularity" condition="less" value="1000" />
+	</process>
+	<operations>
+		<operation type="RegSetValue">
+			<operator type="OR">		
+				<condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" />
+				<condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce" />
+				<condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx" />
+				<condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Run" />
+				<condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnce" />
+				<condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx" />
+			</operator>
+		</operation>
+	</operations>
+</rule>

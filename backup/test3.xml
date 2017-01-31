@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>AppInit registry entry was created [A0101]</name>
+	<severity>Warning</severity>
+	<Operations>
+        <!--child-->
+		<Operation type="RegSetValue">
+            <!--child 1-->
+			<operator type="AND">
+                <operator type="OR">
+				    <operator type="OR">
+				        <condition component="RegistryItem" property="Key" condition="ends" value="c" />
+				        <condition component="RegistryItem1" property="Key1" condition="ends1" value="d" />
+			        </operator>
+                    <operator type="AND">
+				        <condition component="RegistryItem" property="Key" condition="ends" value="3" />
+				        <condition component="RegistryItem1" property="Key1" condition="ends1" value="4" />
+			        </operator>
+			    </operator>
+			</operator>
+		</Operation>
+	</Operations>
+</rule>
+

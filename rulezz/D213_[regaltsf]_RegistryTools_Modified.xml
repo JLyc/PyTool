@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+   <process>
+      <Condition component="LiveGrid" property="Popularity" condition="less" value="1000" />
+  </process>
+  <Operations>
+    <Operation type="RegSetValue">
+       <operator type="AND">
+           <condition component="RegistryItem" property="Key" condition="ends" value="\Policies\System\DisableRegistryTools" />
+        </operator>
+     </Operation>
+  </Operations>
+<name>Unpopular process has enabled\disabled Registry Tools [D213]</name>
+</rule>

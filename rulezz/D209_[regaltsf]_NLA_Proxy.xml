@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+  <Operations>
+    <Operation type="RegSetValue">
+           <condition component="RegistryItem" property="Key" condition="contains" value="\Parameters\Internet\ManualProxies\" />
+     </Operation>
+  </Operations>
+<name>Internet Settings NLA Proxy registry key has been modified [D209]</name>
+</rule>

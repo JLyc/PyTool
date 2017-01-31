@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>User Account Control disabling [B0201]</name>
+	<severity>Warning</severity>
+	<operations>
+		<operation type="RegSetValue">
+			<operator type="AND">
+				<condition component="RegistryItem" property="Key" condition="contains" value="HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" />
+				<condition component="RegistryItem" property="Key" condition="ends" value="EnableLUA" />
+			</operator>
+		</operation>
+	</operations>
+</rule>

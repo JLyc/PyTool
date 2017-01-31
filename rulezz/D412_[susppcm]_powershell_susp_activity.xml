@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule>
+  <Process>
+    <operator type="AND">
+      <Condition component="LiveGrid" property="Popularity" condition="greater" value="10000" />
+      <Condition component="FileItem" property="Path" condition="starts" value="%WINDIR%" />
+      <Condition component="FileItem" property="Name" condition="is" value="powershell" />
+      <operator type="OR">
+        <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="-EncodedCommand" />
+        <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="-FromBase64String" />
+        <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="DownloadString" />
+        <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="DownloadFile" />
+        <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="-W Hidden" />
+        <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="-WindowStyle Hidden" />
+      </operator>
+  </operator>
+  </Process>
+  <Name>Powershell suspicious activity executed [D412]</Name>
+</Rule>

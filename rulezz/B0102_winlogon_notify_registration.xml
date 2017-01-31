@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Winlogon Notify registration [B0102]</name>
+	<severity>Warning</severity>
+	<operations>
+		<operation type="RegSetValue">
+			<condition component="RegistryItem" property="Key" condition="starts" value="HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify" />
+		</operation>
+	</operations>
+</rule>

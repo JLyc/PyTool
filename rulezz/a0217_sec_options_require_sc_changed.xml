@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Security Options: Require smart card modified [A0217]</name>
+	<severity>Warning</severity>
+	<Operations>
+		<Operation type="RegSetValue">
+			<operator type="AND">		
+				<Condition component="RegistryItem" property="Key" condition="contains" value="Software\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" />
+				<Condition component="RegistryItem" property="Key" condition="ends" value="scforceoption" />
+			</operator>
+		</Operation>
+	</Operations>
+</rule>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Winlogon autostart registry entry was modified [A0134]</name>
+	<severity>Warning</severity>
+	<Operations>
+		<Operation type="RegSetValue">
+			<operator type="OR">
+				<operator type="AND">
+					<Condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" />
+					<operator type="OR">
+						<condition component="RegistryItem" property="Key" condition="ends" value="AppSetup" />
+						<condition component="RegistryItem" property="Key" condition="ends" value="Shell" />
+						<condition component="RegistryItem" property="Key" condition="ends" value="Taskman" />
+						<condition component="RegistryItem" property="Key" condition="ends" value="Userinit" />
+						<condition component="RegistryItem" property="Key" condition="ends" value="VmApplet" />
+					</operator>
+				</operator>
+				<Condition component="RegistryItem" property="Key" condition="contains" value="Software\Microsoft\Windows NT\CurrentVersion\Winlogon\AlternateShells\AvailableShells" />
+			</operator>
+		</Operation>
+	</Operations>
+</rule>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule> 
+	<name>Mshta.exe executed process [A0404]</name>
+	<severity>Warning</severity>
+	<ParentProcess>
+		<Condition component="FileItem" property="Name" condition="is" value="mshta" />
+	</ParentProcess>
+	<Process>
+		<Condition component="FileItem" property="Name" condition="isnot" value="" />
+	</Process>
+</rule>

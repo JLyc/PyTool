@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+  <Operations>
+    <Operation type="RegSetValue">
+           <condition component="RegistryItem" property="Key" condition="contains" value="\Internet Settings\AutoConfigURL" />
+     </Operation>
+  </Operations>
+<name>Internet Settings AutoConfigURL registry key has been modified [D208]</name>
+</rule>

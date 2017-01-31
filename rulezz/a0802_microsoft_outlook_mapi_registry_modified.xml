@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Microsoft Outlook mapi32.dll registry modified [A0802]</name>
+	<severity>Information</severity>
+	<Operations>
+		<Operation type="RegSetValue">
+			<operator type="AND">		
+				<Condition component="RegistryItem" property="Key" condition="starts" value="HKLM\Software\Clients\Mail\Microsoft Outlook\" />
+				<operator type ="OR">
+					<Condition component="RegistryItem" property="Key" condition="ends" value="DLLPath" />
+					<Condition component="RegistryItem" property="Key" condition="ends" value="DLLPathEx" />
+				</operator>
+			</operator>
+		</Operation>
+	</Operations>
+</rule>

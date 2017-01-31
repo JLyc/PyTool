@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule>
+  <Process >
+       <operator type="AND">
+         <Condition component="LiveGrid" property="Popularity" condition="less" value="1000" />
+         <Condition component="FileItem" property="Name" condition="isnot" value="outlook" />
+       </operator>
+  </Process>
+  <Operations>
+    <Operation type="TcpIpConnect">
+      <Condition component="Network" property="RemotePort" condition="is" value="465" />
+          <!-- check if ip is external -->
+    </Operation>
+  </Operations>
+  <Name>Unpopular process connects to email server ( SMTP ) [D521]</Name>
+</Rule>

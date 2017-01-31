@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Startup folder location registry modified by unpopular process [A0219]</name>
+	<severity>Information</severity>
+	<process>
+		<condition component="LiveGrid" property="Popularity" condition="less" value="10000" />
+	</process>
+	<operations>
+		<operation type="RegSetValue">
+			<operator type="AND">
+				<operator type="OR">
+					<condition component="RegistryItem" property="Key" condition="contains" value="Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" />
+					<condition component="RegistryItem" property="Key" condition="contains" value="Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" />
+					<condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\explorer\Shell Folders" />
+					<condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\explorer\User Shell Folders" />
+				</operator>
+				<operator type="OR">
+					<condition component="RegistryItem" property="Key" condition="ends" value="Startup" />
+					<condition component="RegistryItem" property="Key" condition="ends" value="Common Startup" />
+				</operator>
+			</operator>
+		</operation>
+	</operations>
+</rule>

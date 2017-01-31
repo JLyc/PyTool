@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Rule>
+  <Process>
+    <operator type="OR">
+      <Condition component="FileItem" property="Extension" condition="is" value="jpg.exe" />
+      <Condition component="FileItem" property="Extension" condition="is" value="bmp.exe" />
+      <Condition component="FileItem" property="Extension" condition="is" value="pdf.exe" />
+      <Condition component="FileItem" property="Extension" condition="is" value="cmd" />
+      <Condition component="FileItem" property="Extension" condition="is" value="pif" />
+      <Condition component="FileItem" property="Extension" condition="is" value="lnk" />
+    </operator>
+  </Process>
+  <name>Process with a suspicious extension has started</name>
+</Rule>

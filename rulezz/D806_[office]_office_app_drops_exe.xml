@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule>
+  <Process >
+     <operator type="AND">
+        <Condition component="LiveGrid" property="Popularity" condition="greater" value="10000" />
+          <operator type="OR">
+                <Condition component="FileItem" property="Name" condition="is" value="WINWORD" />
+                <Condition component="FileItem" property="Name" condition="is" value="EXCEL" />
+                <Condition component="FileItem" property="Name" condition="is" value="OUTLOOK" />
+                <Condition component="FileItem" property="Name" condition="is" value="POWERPNT" />
+          </operator>
+    </operator>
+  </Process>
+  <Operations>
+    <Operation type="WriteFile">
+       <operator type="AND">
+          <Condition component="LiveGrid" property="Popularity" condition="less" value="1000" />
+          <Condition component="FileItem" property="Extension" condition="is" value="exe" />
+       </operator>
+    </Operation>
+  </Operations>
+  <name>MS Office application has saved executable [D806]</name>
+</Rule>

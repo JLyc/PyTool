@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>.NET profiler registry modified [A0109]</name>
+	<severity>Information</severity>
+	<Operations>
+		<Operation type="RegSetValue">
+			<operator type="AND">
+				<condition component="RegistryItem" property="Key" condition="starts" value="HKLM\SYSTEM\ControlSet" />
+				<operator type="OR">
+					<condition component="RegistryItem" property="Key" condition="ends" value="Control\Session Manager\Environment\COR_ENABLE_PROFILING" />
+					<condition component="RegistryItem" property="Key" condition="ends" value="Control\Session Manager\Environment\COR_PROFILER" />
+					<condition component="RegistryItem" property="Key" condition="ends" value="Control\Session Manager\Environment\COR_PROFILER_PATH" />
+					<condition component="RegistryItem" property="Key" condition="ends" value="Control\Session Manager\Environment\COMPLUS_ProfAPI_ProfilerCompatibilitySetting" />
+					<condition component="RegistryItem" property="Key" condition="ends" value="Control\Session Manager\Environment\CORECLR_ENABLE_PROFILING" />
+					<condition component="RegistryItem" property="Key" condition="ends" value="Control\Session Manager\Environment\CORECLR_PROFILER" />
+					<condition component="RegistryItem" property="Key" condition="ends" value="Control\Session Manager\Environment\CORECLR_PROFILER_PATH" />
+				</operator>
+			</operator>
+		</Operation>
+	</Operations>
+</rule>

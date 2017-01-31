@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule>
+  <Operations>
+    <Operation type="WriteFile">
+      <operator type="AND">
+         <Condition component="FileItem" property="Path" condition="starts" value="%LOCALAPPDATA%\Microsoft\Windows\WER\ReportArchive\" />
+         <Condition component="FileItem" property="Name" condition="is" value="Report" />
+         <Condition component="FileItem" property="Extension" condition="is" value="wer" />
+      </operator >
+    </Operation>
+  </Operations>
+  <name>Process crash\hang report has beed added ( some application crashed\hanged ) [D322]</name>
+</Rule>

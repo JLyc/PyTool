@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Security Options: User Account Control - ConsentPromptBehavior settings modified [A0212]</name>
+	<severity>Warning</severity>
+	<Operations>
+		<Operation type="RegSetValue">
+			<operator type="AND">		
+				<Condition component="RegistryItem" property="Key" condition="starts" value="HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" />
+				<operator type="OR">
+					<Condition component="RegistryItem" property="Key" condition="ends" value="ConsentPromptBehaviorAdmin" />
+					<Condition component="RegistryItem" property="Key" condition="ends" value="ConsentPromptBehaviorUser" />
+				</operator>
+			</operator>
+		</Operation>
+	</Operations>
+</rule>

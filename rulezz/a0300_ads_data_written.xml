@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>ADS written by unpopular process [A0300] </name>
+	<severity>Warning</severity>
+	<process>
+		<condition component="LiveGrid" property="Popularity" condition="less" value="10000" />
+	</process>
+	<operations>
+		<operation type="WriteFile">
+			<operator type="AND">
+				<condition component="FileItem" property="Extension" condition="contains" value=":" />
+				<condition component="FileItem" property="Extension" condition="notcontains" value=":Zone.Identifier" />
+				<condition component="FileItem" property="Extension" condition="notcontains" value=":$ATTRIBUTE_LIST" />
+				<condition component="FileItem" property="Extension" condition="notcontains" value=":favicon" />
+			</operator>
+		</operation>
+	</operations>
+</rule>	

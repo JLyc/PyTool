@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>IconServiceLib registry entry was modified [A0116]</name>
+	<severity>Warning</severity>
+	<Operations>
+		<Operation type="RegSetValue">
+			<operator type="AND">
+				<Condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows" />
+				<Condition component="RegistryItem" property="Key" condition="ends" value="IconServiceLib" />
+			</operator>
+		</Operation>
+	</Operations>
+</rule>

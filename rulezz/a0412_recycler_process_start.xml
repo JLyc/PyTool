@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule> 
+	<name>Process has started from Recycle Bin folder [A0412]</name>
+	<severity>Warning</severity>
+	<process>
+		<operator type="OR">
+			<Condition component="FileItem" property="Path" condition="contains" value="\recycler\" />
+			<Condition component="FileItem" property="Path" condition="contains" value="$Recycle.Bin\" />
+		</operator>
+	</process>
+</rule>

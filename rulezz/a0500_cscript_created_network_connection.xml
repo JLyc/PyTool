@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule> 
+	<name>Process cscript.exe creates network connection [A0500]</name>
+	<severity>Warning</severity>
+	<process>
+		<Condition component="FileItem" property="Name" condition="is" value="cscript" />
+	</process>
+	<Operations>
+		<Operation type="TcpIpConnect">
+			<Condition component="Network" property="RemotePort" condition="isnot" value="" />
+		</Operation>
+	</Operations>
+</rule>

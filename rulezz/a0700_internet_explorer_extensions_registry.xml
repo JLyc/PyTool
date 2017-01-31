@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Internet Explorer Extensions registry modified by unpopular process [A0700]</name>
+	<severity>Warning</severity>
+	<process>
+		<condition component="LiveGrid" property="Popularity" condition="less" value="10000" />
+	</process>
+	<operations>
+		<operation type="RegSetValue">
+			<operator type="OR">		
+				<condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Microsoft\Internet Explorer\Extensions" />
+				<condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Wow6432Node\Microsoft\Internet Explorer\Extensions" />
+			</operator>
+		</operation>
+	</operations>
+</rule>

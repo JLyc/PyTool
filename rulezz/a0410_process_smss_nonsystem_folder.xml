@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Process "smss.exe" was executed from non-%SYSTEM% folder [A0410]</name>
+	<severity>Warning</severity>
+	<Process>
+		<operator type="AND">
+			<Condition component="FileItem" property="Name" condition="is" value="smss" />
+			<Condition component="FileItem" property="Path" condition="isnot" value="%SYSTEM%" />
+		</operator>
+	</Process>
+</rule>

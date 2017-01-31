@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Service installation or modification [B0402]</name>
+	<severity>Information</severity>
+	<process>
+		<operator type="AND">
+			<condition component="FileItem" property="Name" condition="isnot" value="services" />
+			<condition component="LiveGrid" property="Reputation" condition="greater" value="20" />
+		</operator>
+	</process>
+	<operations>
+		<operation type="RegSetValue">
+			<operator type="OR">
+				<condition component="RegistryItem" property="Key" condition="starts" value="HKLM\System\ControlSet001\Services" />
+				<condition component="RegistryItem" property="Key" condition="starts" value="HKLM\System\ControlSet002\Services" />
+				<condition component="RegistryItem" property="Key" condition="starts" value="HKLM\System\ControlSet003\Services" />
+				<condition component="RegistryItem" property="Key" condition="starts" value="HKLM\System\ControlSet004\Services" />
+				<condition component="RegistryItem" property="Key" condition="starts" value="HKLM\System\ControlSet005\Services" />
+			</operator>
+		</operation>
+	</operations>
+</rule>
