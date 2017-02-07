@@ -1,4 +1,5 @@
 import os
+import re
 from xml.dom import minidom, Node
 from xml.dom.minicompat import NodeList
 
@@ -69,7 +70,7 @@ def construcRule(element, parent, sentence):
                     element.removeChild(item)
                     break
                 else:
-                    while hasChildElements(element): #down
+                    while hasChildElements(element):
                         # print item.getAttribute('type')
                         construcRule(item, element, _tmp_sentence)
                         if not hasChildElements(item):
@@ -85,22 +86,16 @@ def construcRule(element, parent, sentence):
     if wasInEnd:
         operation.append(_tmp_sentence)
 
-    # for child1 in childElements(element):  # operator A?
-    #     if not child1.hasChildNodes():
-    #         if child1.parentNode.getAttribute('type') == 'AND':
-    #             sentence.append(child1)
-    #             print sentence
-    #             if notInSentence(sentence):
-    #                 operation.append(sentence)
-    #                 continue
-    #         elif child1.parentNode.getAttribute('type') == 'OR':
-    #             operation.append(sentence.append(child1))
-    #         else:
-    #             print "FATAL ERROR"
-    #     else:
-    #         construcRule(child1, sentence)
+def formateStringForDict(command):
+    temp = str(command).replace('[','')
+    temp = temp.replace(']','')
+    temp = temp.replace('u\"', '\"')
+    temp = temp.replace(', \"', '')
+    temp = temp.replace(',\"', '| ')
+    temp = temp.replace('\"', '')
+    return temp
 
-count = 0
+
 # foldr = 'test'
 foldr = 'rulezz'
 for filename in os.listdir(foldr):
@@ -117,48 +112,59 @@ for filename in os.listdir(foldr):
     process = doc.getElementsByTagName('Process')
     if len(process) == 0:
         process = doc.getElementsByTagName('process')
-    operation = doc.getElementsByTagName('Operation')
+    parentProcess = doc.getElementsByTagName('ParentProcess')
+    if len(parentProcess) == 0:
+        parentProcess = doc.getElementsByTagName('parentProcess')
+
 
     operation = []
     counter = 0;
     mapvalue = {}
 
+    for element in parentProcess:  # OperationsParentProcess
+        if element.hasChildNodes():
+            for child1 in childElements(element):  # Operation
+                sentence = []
+                while (hasChildElements(child1)):
+                    construcRule(child1, element, sentence)
+            if findEndElements(child1):
+                operation.append(saveData(child1))
+    processOperation = operation
+
+    operation = []
+    for element in process:  # Operations
+        if element.hasChildNodes():
+            for child1 in childElements(element):  # Operation
+                sentence = []
+                while (hasChildElements(child1)):
+                    construcRule(child1, element, sentence)
+            if findEndElements(child1):
+                operation.append(saveData(child1))
+    parentProcessOperation = operation
+
+    operation = []
+    operationType = ""
     for element in operations:  # Operations
         if element.hasChildNodes():
             for child in childElements(element):  # Operation
+                operationType = saveData(child)
                 for child1 in childElements(child):
                     sentence = []
                     while (hasChildElements(child)):
                         construcRule(child1, child, sentence)
 
-    # for element in process:  # Operations
-    #     if element.hasChildNodes():
-    #         for child in childElements(element):  # Operation
-    #             for child1 in childElements(child):
-    #                 sentence = []
-    #                 while (hasChildElements(child)):
-    #                     construcRule(child1, child, sentence)
 
-    print sentence
-    print len(operation)
-    print operation
-    #
-    # if len(operation)== 0:
-    #     # print "\n******************************************************************"
-    #     # print filename
-    #     count += 1
-# print count
+
+    # print operationType
+    try:
+        oType = eval('{'+operationType+'}')
+        if oType['type'] in ['WriteFile', 'DeleteFile', 'RegSetValue', 'TcpIpConnect']:
+            print '###### SUCCESS ######'
+            continue
+    except:
+        pass
+    print formateStringForDict(parentProcessOperation)
+    print formateStringForDict(processOperation)
+
     for command in operation:
-        # print command
-        temp=''
-        temp = str(command).replace('[','')
-        temp = temp.replace(']','')
-        temp = temp.replace('u\"', '\"')
-        temp = temp.replace(', \"', '')
-        temp = temp.replace(',\"', '| ')
-        print temp
-
-        # out = []
-        # for i in range(1, len(command)):
-        #     out.append(command[i])
-        # print out
+        print formateStringForDict(command)
