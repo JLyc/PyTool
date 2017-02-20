@@ -9,6 +9,7 @@
 					<condition component="RegistryItem" property="Key" condition="ends" value="Appinit_Dlls" />
 					<operator type="OR">
 						<Condition component="RegistryItem" property="Key" condition="contains" value="HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows" />
+																						  HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows
 						<Condition component="RegistryItem" property="Key" condition="contains" value="HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Windows" />
 					</operator>
 				</operator>

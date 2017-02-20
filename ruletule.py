@@ -1,146 +1,193 @@
 import os
+import re
 from xml.dom import minidom, Node
 from xml.dom.minicompat import NodeList
-
-
-def saveCondition(operand, element, counter):
-    if operand.upper() == 'AND':
-        operation.append(element)
-    else:
-        try:
-            operation[mapvalue[str(counter)]].append(element)
-        except KeyError:
-            operation.append([element])
-            mapvalue[str(counter)] = len(operation) - 1
-
-
-def traverseTree(element):
-    global counter
-    counter += len(operation) + 1
-    for child in element.childNodes:
-        if child.nodeType == Node.ELEMENT_NODE:
-            if not child.hasChildNodes():
-                operand = child.parentNode.getAttribute('type')
-                saveCondition(operand, child, counter)
-            else:
-                traverseTree(child)
-
-
-def addToAll(part):
-    global sentences
-    for i in xrange(len(sentences)):
-        sentences[i] += part.getAttribute(
-            'component') + '-' + part.getAttribute(
-            'property') + ' ' + part.getAttribute(
-            'condition') + '=' + part.getAttribute('value') + " & "
-
-
-def callme(lsitPart):
-    global sentences
-    for idx, part in enumerate(lsitPart):
-        if isinstance(part, list):
-            callme(part)
-        else:
-            lsitPart[idx] = part.getAttribute('value')
-    return lsitPart
 
 
 def childElements(node):
     nodeList = NodeList()
     for element in node.childNodes:
         if element.nodeType == Node.ELEMENT_NODE:
-            nodeList.append(element)
+            if str(element.getAttribute('type')).lower() == 'and':
+                nodeList.insert(0, element)
+            else:
+                nodeList.append(element)
     return nodeList
 
 
-# for filename in os.listdir('rulezz'):
-def pickFrom(child1):
-    element = []
-    if child1.getAttribute('type') == 'OR':
-        elements = childElements(child1)
-        element.append(elements)
-        return element
-    elif child1.getAttribute('type') == 'AND':
-        elements = childElements(child1)
-        for e in elements:
-            element.append(e)
-        return element
+def hasChildElements(node):
+    for element in node.childNodes:
+        if element.nodeType == Node.ELEMENT_NODE:
+            return True
+    return False
+
+
+def notInSentence(list):
+    for sentence1 in operation:
+        for item in sentence1:
+            if not item in list:
+                return True
+
+def findEndElements(element):
+    if str(element.localName).lower() == 'condition':
+        return True
     else:
-        return element
+        return False
+
+def saveData(element):
+    outValue = ""
+    for item in element.attributes.items():
+        outValue += "\'" + item[0] + "\' : \'" + item[1] + "\' ,"
+    return outValue
 
 
-def levelTraversing(operation):
-    noEmpty = 0
-    for idx, item in enumerate(operation):
-        if isinstance(item, Node) and item.nodeType == Node.ELEMENT_NODE:
-            if item.hasChildNodes():
-                operation[idx] = pickFrom(item)
-                noEmpty += 1
+
+def andRule(element, parent, _tmp_sentence):
+    wasInEnd = True
+    for item in childElements(element):
+        if findEndElements(item):
+            _tmp_sentence.append(saveData(item))
+            element.removeChild(item)
+            if not hasChildElements(parent):
+                operation.append(_tmp_sentence)
+        else:
+            while hasChildElements(element):
+                construcRule(item, element, _tmp_sentence)
+                # if hasChildElements(item):
+                #     break
+            wasInEnd = False
+    parent.removeChild(element)
+    return wasInEnd
+
+def orRule(element, parent, _tmp_sentence):
+    wasInEnd = True
+    if hasChildElements(element):
+        for item in childElements(element):
+            if findEndElements(item):
+                _tmp_sentence.append(saveData(item))
+                element.removeChild(item)
+                break
             else:
-                continue
-        elif isinstance(item, list):
-            levelTraversing(item)
-            noEmpty += 1
-    return noEmpty
+                while hasChildElements(element):
+                    construcRule(item, element, _tmp_sentence)
+                    if not hasChildElements(item):
+                        break
+                wasInEnd = False
+    else:
+        parent.removeChild(element)
+        return wasInEnd
+    return wasInEnd
+
+def construcRule(element, parent, sentence):
+    _tmp_sentence = [sentence]
+    attribute = str(element.getAttribute('type')).lower()
+    wasInEnd = True
+
+    if attribute == 'and':
+        # wasInEnd = andRule(element, parent, _tmp_sentence)
+        for item in childElements(element):
+            if findEndElements(item):
+                _tmp_sentence.append(saveData(item))
+                element.removeChild(item)
+                if not hasChildElements(parent):
+                    operation.append(_tmp_sentence)
+            else:
+                while hasChildElements(element):
+                    construcRule(item, element, _tmp_sentence)
+                    # if hasChildElements(item):
+                    #     break
+                wasInEnd = False
+        parent.removeChild(element)
+    elif attribute == 'or':
+        # wasInEnd = orRule(element, parent, _tmp_sentence)
+        if hasChildElements(element):
+            for item in childElements(element):
+                if findEndElements(item):
+                    _tmp_sentence.append(saveData(item))
+                    element.removeChild(item)
+                    break
+                else:
+                    while hasChildElements(element):
+                        construcRule(item, element, _tmp_sentence)
+                        if not hasChildElements(item):
+                            break
+                    wasInEnd = False
+        else:
+            parent.removeChild(element)
+            return wasInEnd
+    else:
+        if findEndElements(element):
+            _tmp_sentence.append(saveData(element))
+            parent.removeChild(element)
+
+    if wasInEnd:
+        operation.append(_tmp_sentence)
 
 
-def levelSerach(operation):
-    noEmpty = 1
-    while noEmpty > 0:
-        noEmpty = levelTraversing(operation)
-    print 'one while'
+def formateStringForDict(command):
+    temp = str(command).replace('[','')
+    temp = temp.replace(']','')
+    temp = temp.replace('u\"', '\"')
+    temp = temp.replace(', \"', '')
+    temp = temp.replace(',\"', '| ')
+    temp = temp.replace('\"', '')
+    return temp
 
 
-for filename in os.listdir('test'):
+foldr = 'test'
+# foldr = 'rulezz'
+for filename in os.listdir(foldr):
     print "\n******************************************************************"
-    # doc = minidom.parse('a0100_active_setup_autostart_registry.xml')
-    # doc = minidom.parse('a0101_appinit_registry_entry_create.xml')
     print filename
-    # doc = minidom.parse("rulezz/"+filename)
-    doc = minidom.parse("test/" + filename)
 
-    root = doc.getElementsByTagName('rule')
+    doc = minidom.parse(foldr + "/" + filename)
+
     operations = doc.getElementsByTagName('Operations')
-    operation = doc.getElementsByTagName('Operation')
+    if len(operations) == 0:
+        operations = doc.getElementsByTagName('operations')
+    process = doc.getElementsByTagName('Process')
+    if len(process) == 0:
+        process = doc.getElementsByTagName('process')
+    parentProcess = doc.getElementsByTagName('ParentProcess')
+    if len(parentProcess) == 0:
+        parentProcess = doc.getElementsByTagName('parentProcess')
 
     operation = []
-    counter = 0;
-    mapvalue = {}
+    for element in parentProcess:  # OperationsParentProcess
+        if element.hasChildNodes():
+            for child1 in childElements(element):  # Operation
+                sentence = []
+                while hasChildElements(child1):
+                    construcRule(child1, element, sentence)
+            if findEndElements(child1):
+                operation.append(saveData(child1))
+    processOperation = operation
 
+    operation = []
+    for element in process:  # Operations
+        if element.hasChildNodes():
+            for child1 in childElements(element):  # Operation
+                sentence = []
+                while hasChildElements(child1):
+                    construcRule(child1, element, sentence)
+            if findEndElements(child1):
+                operation.append(saveData(child1))
+    parentProcessOperation = operation
+
+    operation = []
+    operationType = ""
     for element in operations:  # Operations
         if element.hasChildNodes():
             for child in childElements(element):  # Operation
-                for child1 in childElements(child):  # operator
-                    if child1.getAttribute('type') == 'OR':
-                        elements = childElements(child1)
-                        count = len(elements)
-                        operation.append(elements)
-                        levelSerach(operation)
+                operationType = saveData(child)
+                for child1 in childElements(child):
+                    sentence = []
+                    while (hasChildElements(child)):
+                        construcRule(child1, child, sentence)
 
-                    elif child1.getAttribute('type') == 'AND':
-                        elements = childElements(child1)
-                        count = len(elements)
-                        for e in elements:
-                            operation.append(e)
-                        levelSerach(operation)
+    print operationType
+    print formateStringForDict(parentProcessOperation)
+    print formateStringForDict(processOperation)
 
-                    else:
-                        continue
-
-                        # for child2 in child.childNodes:
-                        #     if child2.nodeType == Node.ELEMENT_NODE:
-                        #         if not child2.hasChildNodes():
-                        #             operand = child2.parentNode.getAttribute('type')
-                        #             saveCondition(operand, child2, counter)
-                        #         else:
-                        #             traverseTree(child2)
-
-    print len(operation)
-    print operation
-
-    # pseudocode
-    sentences = [""]
-    print callme(operation)
-
-    # for sentence in sentences:
-    #     print sentence
+    for command in operation:
+        print formateStringForDict(command)

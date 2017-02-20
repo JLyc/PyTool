@@ -7,14 +7,12 @@
 		<Operation type="RegSetValue">
             <!--child 1-->
 			<operator type="AND">
-                			<operator type="AND">
-                <condition component="RegistryItem" property="Key" condition="ends" value="a" />
+                <operator type="AND">
+			        <condition component="RegistryItem" property="Key" condition="ends" value="c" />
+			        <condition component="RegistryItem1" property="Key1" condition="ends1" value="d" />
+			    </operator>
+				<condition component="RegistryItem" property="Key" condition="ends" value="a" />
                 <condition component="RegistryItem" property="Key" condition="ends" value="b" />
-			</operator>
-                			<operator type="AND">
-                <condition component="RegistryItem" property="Key" condition="ends" value="a" />
-                <condition component="RegistryItem" property="Key" condition="ends" value="b" />
-			</operator>
 			</operator>
 		</Operation>
 	</Operations>

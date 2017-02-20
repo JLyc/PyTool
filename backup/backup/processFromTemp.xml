@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule>
+  <Process>
+    <operator type="AND">
+      <operator type="OR">
+        <Condition component="FileItem" property="Path" condition="starts" value="%TMP%" />
+        <Condition component="FileItem" property="Path" condition="starts" value="%ProgramData%" />
+        <Condition component="FileItem" property="Path" condition="starts" value="%AppData%" />
+      </operator >
+      <operator type="AND">
+        <Condition component="LiveGrid" property="Popularity" condition="less" value="100" />
+        <Condition component="LiveGrid" property="Age" condition="less" value="15" />
+        <Condition component="LiveGrid" property="Reputation" condition="greater" value="20" />
+      </operator >
+    </operator >
+  </Process>
+  <name>Process has started from TEMP, ProgramData, AppData and etc</name>
+</Rule>

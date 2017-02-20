@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Chrome renaming [B0702]</name>
+	<severity>Warning</severity>
+	<process>
+		<operator type="OR">
+			<condition component="FileItem" property="Name" condition="is" value="cmd" />
+			<condition component="Module" property="Signed" condition="isnot" value="1" />
+		</operator>
+	</process>
+	<operations>
+		<operation type="RenameFile">
+			<operator type="AND">
+				<condition component="FileItem" property="Name" condition="is" value="chrome" />
+				<condition component="FileItem" property="Extension" condition="is" value="exe" />
+			</operator>
+		</operation>
+	</operations>
+</rule>
