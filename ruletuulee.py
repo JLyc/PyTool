@@ -1,5 +1,8 @@
 import os
 import re
+import uuid
+
+import commandTranslator
 from xml.dom import minidom, Node
 from xml.dom.minicompat import NodeList
 
@@ -8,10 +11,7 @@ def childElements(node):
     nodeList = NodeList()
     for element in node.childNodes:
         if element.nodeType == Node.ELEMENT_NODE:
-            if str(element.getAttribute('type')).lower() == 'and':
-                nodeList.insert(0, element)
-            else:
-                nodeList.append(element)
+            nodeList.append(element)
     return nodeList
 
 
@@ -41,88 +41,51 @@ def saveData(element):
     return outValue
 
 
-
-def andRule(element, parent, _tmp_sentence):
-    wasInEnd = True
-    for item in childElements(element):
-        if findEndElements(item):
-            _tmp_sentence.append(saveData(item))
-            element.removeChild(item)
-            if not hasChildElements(parent):
-                operation.append(_tmp_sentence)
-        else:
-            while hasChildElements(element):
-                construcRule(item, element, _tmp_sentence)
-                # if hasChildElements(item):
-                #     break
-            wasInEnd = False
-    parent.removeChild(element)
-    return wasInEnd
-
-def orRule(element, parent, _tmp_sentence):
-    wasInEnd = True
-    if hasChildElements(element):
-        for item in childElements(element):
-            if findEndElements(item):
-                _tmp_sentence.append(saveData(item))
-                element.removeChild(item)
-                break
-            else:
-                while hasChildElements(element):
-                    construcRule(item, element, _tmp_sentence)
-                    if not hasChildElements(item):
-                        break
-                wasInEnd = False
-    else:
-        parent.removeChild(element)
-        return wasInEnd
-    return wasInEnd
-
 def construcRule(element, parent, sentence):
-    _tmp_sentence = [sentence]
+    _tmp_sentence = []
+    _tmp_sentence.append(sentence)
     attribute = str(element.getAttribute('type')).lower()
     wasInEnd = True
-
     if attribute == 'and':
-        # wasInEnd = andRule(element, parent, _tmp_sentence)
         for item in childElements(element):
             if findEndElements(item):
+                # wasInEnd = True
+                # _tmp_sentence.append(item)
                 _tmp_sentence.append(saveData(item))
                 element.removeChild(item)
-                if not hasChildElements(parent):
-                    operation.append(_tmp_sentence)
-            else:
+        for item in childElements(element):
+            if not findEndElements(item):
                 while hasChildElements(element):
                     construcRule(item, element, _tmp_sentence)
-                    # if hasChildElements(item):
+                    # if not hasChildElements(item):
                     #     break
                 wasInEnd = False
         parent.removeChild(element)
-    elif attribute == 'or':
-        # wasInEnd = orRule(element, parent, _tmp_sentence)
+        # print "removed end way"
+    elif attribute == 'or':#up
         if hasChildElements(element):
             for item in childElements(element):
                 if findEndElements(item):
+                    # _tmp_sentence.append(item)
                     _tmp_sentence.append(saveData(item))
                     element.removeChild(item)
                     break
                 else:
                     while hasChildElements(element):
+                        # print item.getAttribute('type')
                         construcRule(item, element, _tmp_sentence)
                         if not hasChildElements(item):
                             break
                     wasInEnd = False
         else:
             parent.removeChild(element)
-            return wasInEnd
+            return
     else:
         if findEndElements(element):
             _tmp_sentence.append(saveData(element))
             parent.removeChild(element)
-
     if wasInEnd:
         operation.append(_tmp_sentence)
-
 
 def formateStringForDict(command):
     temp = str(command).replace('[','')
@@ -133,9 +96,9 @@ def formateStringForDict(command):
     temp = temp.replace('\"', '')
     return temp
 
-
-foldr = 'test'
-# foldr = 'rulezz'
+count = 0
+# foldr = 'test'
+foldr = 'rulezz'
 for filename in os.listdir(foldr):
     print "\n******************************************************************"
     print filename
@@ -161,7 +124,7 @@ for filename in os.listdir(foldr):
                     construcRule(child1, element, sentence)
             if findEndElements(child1):
                 operation.append(saveData(child1))
-    processOperation = operation
+    parentProcessOperation = operation
 
     operation = []
     for element in process:  # Operations
@@ -172,7 +135,7 @@ for filename in os.listdir(foldr):
                     construcRule(child1, element, sentence)
             if findEndElements(child1):
                 operation.append(saveData(child1))
-    parentProcessOperation = operation
+    processOperation = operation
 
     operation = []
     operationType = ""
@@ -185,9 +148,22 @@ for filename in os.listdir(foldr):
                     while (hasChildElements(child)):
                         construcRule(child1, child, sentence)
 
-    print operationType
-    print formateStringForDict(parentProcessOperation)
-    print formateStringForDict(processOperation)
+
+
+    print formateStringForDict(operationType)
+
+    print "parent"+formateStringForDict(parentProcessOperation)
+    parentCommand = formateStringForDict(parentProcessOperation)
+    print "process"+formateStringForDict(processOperation)
+    processCommand = formateStringForDict(processOperation)
+
 
     for command in operation:
         print formateStringForDict(command)
+        command = formateStringForDict(command)
+        if not parentCommand:
+            count += 1
+            parent_name = "'property' : 'Name' ,'component' : 'FileItem' ,'value' : '{0}' ,'condition' : 'is'".format(filename[:-3] + str(count))
+        else:
+            parent_name = parentCommand
+        commandTranslator.generate_executable(operationType, command, parent_name)
