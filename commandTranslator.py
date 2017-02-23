@@ -1,18 +1,7 @@
-import winreg
+import sys
+from cx_Freeze import setup, Executable
+build_exe_options = {"packages": ["os"], "excludes": ["tkinter"], "build_exe": "c:\\test1", "silent": True}
 
-from distutils.core import setup
-# import py2exe
-
-# type = "RegSetValue"
-# type = "WriteFile"
-# inputString = "'property' : 'Key' ,'component' : 'RegistryItem' ,'value' : 'StubPath' ,'condition' : 'ends' | 'property' : 'Key' ,'component' : 'RegistryItem' ,'value' : 'SOFTWARE\\Microsoft\\Active Setup\\Installed Components' ,'condition' : 'contains' |"
-# inputString = "'property' : 'Extension' ,'component' : 'FileItem' ,'value' : ':' ,'condition' : 'contains' | 'property' : 'Extension' ,'component' : 'FileItem' ,'value' : ':Zone.Identifier' ,'condition' : 'notcontains' | 'property' : 'Extension' ,'component' : 'FileItem' ,'value' : ':$ATTRIBUTE_LIST' ,'condition' : 'notcontains' | 'property' : 'Extension' ,'component' : 'FileItem' ,'value' : ':favicon' ,'condition' : 'notcontains' |"
-# inputString = "'property' : 'Extension' ,'component' : 'FileItem' ,'value' : 'lnk' ,'condition' : 'is' | 'property' : 'Path' ,'component' : 'FileItem' ,'value' : '%DESKTOP%' ,'condition' : 'starts' |"
-# inputString = "'property' : 'Path' ,'component' : 'FileItem' ,'value' : '%TMP%' ,'condition' : 'starts' | 'property' : 'Extension' ,'component' : 'FileItem' ,'value' : 'vbs' ,'condition' : 'is' |"
-
-# inputParent = "'property' : 'Popularity' ,'component' : 'LiveGrid' ,'value' : '10000' ,'condition' : 'less' | 'property' : 'Name' ,'component' : 'FileItem' ,'value' : 'cscript' ,'condition' : 'is' | 'property' : 'Path' ,'component' : 'FileItem' ,'value' : '%WINDIR%' ,'condition' : 'isnot'"
-
-# remove
 executable_name = "test.py"
 
 def generate_executable(type, input_string, input_parent):
@@ -170,6 +159,10 @@ def write_to_file(code):
     file = open(executable_name, 'w')
     file.write(code)
 
-# setup(console=[executable_name])
+    setup(  name = "ESET",
+            version = "0.1",
+            description = "ESET testing tool",
+            options = {"build_exe": build_exe_options},
+            executables = [Executable(executable_name)])
 
 
