@@ -7,7 +7,7 @@
   </Process>
   <Operations>
  <Operation type="HttpRequest">
-       <operator type="AND">
+       <operator type="OR">
            <Condition component="Network" property="Url" condition="contains" value="/upload.php" />
            <Condition component="Network" property="Url" condition="contains" value="/stat.php" />
            <Condition component="Network" property="Url" condition="contains" value="/contador.php" />

@@ -16,5 +16,11 @@
 				<condition component="FileItem" property="Path" condition="starts" value="%DESKTOP%" />
 			</operator>
 		</operation>
+		<operation type="DeleteFile">
+			<operator type="AND">
+				<condition component="FileItem" property="Extension" condition="is" value="lnk" />
+				<condition component="FileItem" property="Path" condition="starts" value="%DESKTOP%" />
+			</operator>
+		</operation>
 	</operations>
 </rule>

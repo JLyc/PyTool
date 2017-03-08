@@ -3,18 +3,10 @@
 	<name>AppInit registry entry was created [A0101]</name>
 	<severity>Warning</severity>
 	<Operations>
-        <!--child-->
 		<Operation type="RegSetValue">
-            <!--child 1-->
 			<operator type="AND">
-                			<operator type="AND">
                 <condition component="RegistryItem" property="Key" condition="ends" value="a" />
                 <condition component="RegistryItem" property="Key" condition="ends" value="b" />
-			</operator>
-                			<operator type="AND">
-                <condition component="RegistryItem" property="Key" condition="ends" value="a" />
-                <condition component="RegistryItem" property="Key" condition="ends" value="b" />
-			</operator>
 			</operator>
 		</Operation>
 	</Operations>

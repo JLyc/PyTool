@@ -1,10 +1,6 @@
 import os
-import re
-import uuid
-
-import sys
 from cx_Freeze import setup, Executable
-from shutil import copyfile, copy
+from shutil import copy
 
 import commandTranslator
 from xml.dom import minidom, Node
@@ -108,10 +104,12 @@ def formateStringForDict(command):
 count = 0
 # foldr = 'test'
 foldr = 'rulezz'
+# print sys.argv
 # foldr = 'compile'
+# foldr = sys.argv[2]
 for filename in os.listdir(foldr):
-    print "\n******************************************************************"
-    print filename
+    print("\n*****************************************************************")
+    print(filename)
 
     doc = minidom.parse(foldr + "/" + filename)
 
@@ -160,20 +158,20 @@ for filename in os.listdir(foldr):
 
 
 
-    print formateStringForDict(operationType)
+    print(formateStringForDict(operationType))
 
-    print "parent"+formateStringForDict(parentProcessOperation)
+    print("parent"+formateStringForDict(parentProcessOperation))
 
     parentCommand = formateStringForDict(parentProcessOperation)
-    print "process"+formateStringForDict(processOperation)
+    print("process"+formateStringForDict(processOperation))
     processCommand = formateStringForDict(processOperation)
 
     if not operation:
-        log_file = open("c:\\\\test\\skipped.txt", 'a')
+        log_file = open("c:/test/skipped.txt", 'a')
         log_file.write("skipped: " + filename + "\n")
 
     for command in operation:
-        print formateStringForDict(command)
+        print(formateStringForDict(command))
         command = formateStringForDict(command)
         if not parentCommand:
             count += 1

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Chrome updates disabling [B0701]</name>
+	<severity>Warning</severity>
+	<process>
+		<operator type="OR">
+			<condition component="LiveGrid" property="Popularity" condition="less" value="1000" />
+			<condition component="FileItem" property="Name" condition="is" value="cmd" />
+		</operator>
+	</process>
+	<operations>
+		<operation type="DeleteFile">
+			<operator type="AND">
+				<condition component="FileItem" property="Name" condition="is" value="GoogleUpdate" />
+				<operator type="OR">
+					<condition component="FileItem" property="Path" condition="is" value="%PROGRAMFILES%\Google\Update\" />
+					<condition component="FileItem" property="Path" condition="is" value="%PROGRAMFILES(X86)%\Google\Update\" />
+				</operator>
+			</operator>
+		</operation>
+	</operations>
+</rule>
