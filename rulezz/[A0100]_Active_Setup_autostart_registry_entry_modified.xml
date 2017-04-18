@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Active Setup autostart registry entry modified [A0100]</name>
+	<severity>Information</severity>
+	<process>
+		<condition component="LiveGrid" property="Popularity" condition="less" value="10000" />
+	</process>
+	<operations>
+		<operation type="RegSetValue">
+			<operator type="AND">
+				<operator type="OR">		
+					<condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Microsoft\Active Setup\Installed Components" />
+					<condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components" />
+				</operator>
+				<condition component="RegistryItem" property="Key" condition="ends" value="StubPath" />
+			</operator>
+		</operation>
+	</operations>
+</rule>

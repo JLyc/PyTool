@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule>
+  <!--
+  <description>
+    Some malware variants resides in that directory.
+    If you can't verify that the file is clean please submit it for analysis.
+    You may want to block the module to prevent it from executing.
+  </description>
+  -->
+  <Process>
+    <operator type="AND">
+        <Condition component="FileItem" property="Path" condition="is" value="%LOCALAPPDATA%" />
+        <Condition component="LiveGrid" property="Popularity" condition="less" value="1000" />
+    </operator >
+  </Process>
+  <name>Unpopular process executed from root of AppData\Local directory [D418]</name>
+</Rule>

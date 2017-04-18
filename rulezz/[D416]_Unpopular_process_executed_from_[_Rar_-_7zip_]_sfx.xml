@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule>
+  <!--
+  <description>
+    Some malware variants executes this way infecting the system. 
+    If you can't verify that this file is clean please submit if for analysis.
+    You may want to block the module to prevent it from executing.
+  </description>
+  -->
+  <Process>
+    <operator type="AND">
+        <operator type="OR">
+               <Condition component="FileItem" property="Path" condition="contains" value="\7zipsfx." />
+               <Condition component="FileItem" property="Path" condition="contains" value="\rar$ex" />
+        </operator >
+        <Condition component="LiveGrid" property="Popularity" condition="less" value="100" />
+        <Condition component="LiveGrid" property="Age" condition="less" value="15" />
+        <Condition component="LiveGrid" property="Reputation" condition="greater" value="20" />
+    </operator >
+  </Process>
+  <name>Unpopular process executed from [ Rar / 7zip ] sfx [D416]</name>
+</Rule>

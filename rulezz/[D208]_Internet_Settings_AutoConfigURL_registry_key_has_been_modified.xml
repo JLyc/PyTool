@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+  <!--
+  <description>
+    Common behaviour for ProxyChanger malware variants
+    Please verify the process. If these changes were not intended by user or administrator you 
+    should submit the executable for analysis and revert the changes using registry editor.
+    You may want to block the module to prevent it from executing.
+  </description>
+  -->
+  <Operations>
+    <Operation type="RegSetValue">
+         <condition component="RegistryItem" property="Key" condition="contains" value="\Internet Settings\AutoConfigURL" />
+     </Operation>
+  </Operations>
+<name>Internet Settings AutoConfigURL registry key has been modified [D208]</name>
+</rule>

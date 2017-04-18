@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+  <!--
+  <description>
+    Internet Explorer Exploit behaviour.
+    Please submit the executable for analysis immediately.
+    This event would most likely result in IE crash, if you are able to tell the website url
+    user was browsing before the crash please submit this information aswell.
+    Please block the process module to prevent it from executing.
+  </description>
+  -->
+  <ParentProcess>
+    <operator type="AND">
+      <Condition component="LiveGrid" property="Popularity" condition="greater" value="10000" />
+      <Condition component="FileItem" property="Name" condition="is" value="iexplore" />
+      <operator type="OR">
+        <Condition component="FileItem" property="Path" condition="starts" value="%WINDIR%\winsx\" />
+        <Condition component="FileItem" property="Path" condition="starts" value="%PROGRAMFILES%\Internet Explorer\" />
+        <Condition component="FileItem" property="Path" condition="starts" value="%PROGRAMFILES(X86)%\Internet Explorer\" />
+      </operator>
+     </operator>
+  </ParentProcess>
+  <Process>
+    <operator type="AND">
+      <Condition component="LiveGrid" property="Popularity" condition="less" value="1000" />
+      <Condition component="FileItem" property="Path" condition="starts" value="%TMP%" />
+      <Condition component="FileItem" property="Extension" condition="is" value=".tmp" />
+    </operator>
+  </Process>
+<name>IExplore tries to execute unpopular process from %TMP% directory [D401]</name>
+</rule>

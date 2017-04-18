@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<!-- Sample malicious site IP has been used (Wauchos download site) -->
+	<name>Connection to malicious site - Wauchos [Z0501]</name>
+	<severity>Warning</severity>
+	<operations>
+		<operation type="TcpIpConnect">
+			<condition component="Network" property="RemoteAddressIpV4" condition="is" value="116.193.77.220" />
+		</operation>
+	</operations>
+</rule>

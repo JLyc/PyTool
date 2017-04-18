@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Unpopular process has started from %AppData%/%ProgramData% [Z0403]</name>
+	<severity>Information</severity>
+	<process>
+		<operator type="AND">
+			<condition component="LiveGrid" property="Popularity" condition="less" value="1000" />		
+			<operator type="OR">
+				<condition component="FileItem" property="Path" condition="starts" value="%AppData%" />
+				<condition component="FileItem" property="Path" condition="starts" value="%LocalAppData%" />
+				<condition component="FileItem" property="Path" condition="starts" value="%LocalAppDataLow%" />
+				<condition component="FileItem" property="Path" condition="starts" value="%ProgramData%" />
+			</operator>
+        </operator >
+	</process>
+</rule>

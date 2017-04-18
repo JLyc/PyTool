@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+  <!--
+  <description>
+    Is most likely a rogue office documment.
+    Please submit the documment for analysis immediately.
+    Warn users who might have recieved this document to prevent them from opening it.
+  </description>
+  -->
+  <ParentProcess>
+    <operator type="AND">
+      <Condition component="LiveGrid" property="Popularity" condition="greater" value="10000" />
+          <operator type="OR">
+                <Condition component="FileItem" property="Name" condition="is" value="WINWORD" />
+                <Condition component="FileItem" property="Name" condition="is" value="EXCEL" />
+                <Condition component="FileItem" property="Name" condition="is" value="OUTLOOK" />
+                <Condition component="FileItem" property="Name" condition="is" value="POWERPNT" />
+          </operator>
+    </operator>
+  </ParentProcess>
+  <Process>
+    <operator type="AND">
+      <Condition component="LiveGrid" property="Popularity" condition="greater" value="10000" />
+      <Condition component="FileItem" property="Path" condition="starts" value="%WINDIR%" />
+          <operator type="OR">
+                <Condition component="FileItem" property="Name" condition="is" value="powershell" />
+                <Condition component="FileItem" property="Name" condition="is" value="cscript" />
+                <Condition component="FileItem" property="Name" condition="is" value="wscript" />
+                <Condition component="FileItem" property="Name" condition="is" value="cmd" />
+          </operator>
+    </operator>
+  </Process>
+<name>MS Office application has invoked script interpreter [D807]</name>
+</rule>

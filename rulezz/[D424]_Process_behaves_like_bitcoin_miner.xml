@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule>
+  <!--
+  <description>
+    If you can't confirm that this file is clean please submit it for analysis.
+    You may want to block the module to prevent it from executing.
+  </description>
+  -->
+  <Process>
+       <operator type="OR">
+           <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="--userpass" />
+           <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="-o http" />
+           <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="stratum+tcp:" />
+           <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="elitter.net" />
+           <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="qhor.net" />
+           <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="pool.net" />
+      </operator>
+  </Process>
+  <Name>Process behaves like bitcoin miner [D424]</Name>
+</Rule>

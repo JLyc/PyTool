@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+  <!--
+  <description>
+    Some malware variants modifies this registry key.
+    Please verify the process. If these changes were not intended by user or administrator you 
+    should submit the executable for analysis and revert the changes using registry editor.
+    You may want to block the module to prevent it from executing.
+  </description>
+  -->
+   <process>
+      <Condition component="LiveGrid" property="Popularity" condition="less" value="1000" />
+  </process>
+  <Operations>
+    <Operation type="RegSetValue">
+       <operator type="AND">
+           <condition component="RegistryItem" property="Key" condition="contains" value="\Policies\System\DisableTaskMgr" />
+        </operator>
+     </Operation>
+  </Operations>
+<name>Unpopular process has enabled\disabled Task Manager [D214]</name>
+</rule>

@@ -1,4 +1,9 @@
 import os
+import re
+import win32file
+import xml
+
+import pywintypes
 from cx_Freeze import setup, Executable
 from shutil import copy
 
@@ -104,12 +109,27 @@ def formateStringForDict(command):
 count = 0
 # foldr = 'test'
 foldr = 'rulezz'
-# print sys.argv
 # foldr = 'compile'
+# print sys.argv
 # foldr = sys.argv[2]
+
+def readable(name):
+    # name = "Active Setup autostart registry entry was modified [A0100]"
+    name = name.replace("\\","-")
+    name = name.replace("/","-")
+    name = name.replace(".","_")
+    name = name.replace(":","")
+    name = name.replace("?","")
+    name = name.replace("*","")
+
+    pattern = re.compile(r'(\[.*\])*$')
+    found = pattern.search(name.strip())
+    sufix = found.group(len(found.groups()) - 1)
+    return (sufix + "_" + name.replace(str(sufix), "").strip()).replace(" ","_")
+
 for filename in os.listdir(foldr):
     print("\n*****************************************************************")
-    print(filename)
+    print(foldr + "/" + filename)
 
     doc = minidom.parse(foldr + "/" + filename)
 
@@ -166,16 +186,23 @@ for filename in os.listdir(foldr):
     print("process"+formateStringForDict(processOperation))
     processCommand = formateStringForDict(processOperation)
 
+    name = doc.getElementsByTagName('Name')
+    # print type(name)
+    if len(name) == 0:
+        name = doc.getElementsByTagName('name')
+    # print name[0].firstChild.nodeValue
+    name = readable(name[0].firstChild.nodeValue)
+
     if not operation:
         log_file = open("c:/test/skipped.txt", 'a')
-        log_file.write("skipped: " + filename + "\n")
+        log_file.write("skipped: " + name + "\n")
 
     for command in operation:
         print(formateStringForDict(command))
         command = formateStringForDict(command)
         if not parentCommand:
             count += 1
-            parent_name = "'property' : 'Name' ,'component' : 'FileItem' ,'value' : '{0}' ,'condition' : 'is'".format(filename[:-4])
+            parent_name = "'property' : 'Name' ,'component' : 'FileItem' ,'value' : '{0}' ,'condition' : 'is'".format(name)
         else:
             parent_name = parentCommand
         executable_name = commandTranslator.generate_executable(operationType, command, parent_name)
@@ -190,11 +217,13 @@ for filename in os.listdir(foldr):
               executables=[Executable(executable_name['file_name']+'.py')])
 
 
-        file = open(".".join(["c:\\test\\" + executable_name['file_name'] + str(count)+ "\\help", 'txt']), 'w')
+        file = open(unicode(".".join(["c:\\test\\" + executable_name['file_name'] + str(count)+ "\\help", 'txt'])), 'w')
         file.write(str(executable_name))
         file.close()
 
-        copy(foldr + "/" + filename,
-                 "c:\\test\\" + executable_name['file_name'] + str(count))
-        copy(executable_name['file_name']+'.py',
-             "c:\\test\\" + executable_name['file_name'] + str(count))
+        win32file.CopyFile(foldr + "/" + filename, "c:\\test\\" + executable_name['file_name'] + str(count) + "\\" + name, 0)
+
+        try:
+            win32file.MoveFile(executable_name['file_name'] + '.py', "c:\\test\\" + executable_name['file_name'] + str(count) + "\\" + executable_name['file_name'] + '.py')
+        except pywintypes.error as e:
+            print "file exist skipping" + str(e)

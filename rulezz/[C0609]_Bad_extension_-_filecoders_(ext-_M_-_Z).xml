@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+<name>Bad extension - filecoders (ext. M - Z) [C0609]</name>
+<!-- rev 20170111 -->
+<severity>Threat</severity>
+<Process>
+	<operator type="AND">
+		<Condition component="LiveGrid" property="Reputation" condition="greater" value="20" />
+		</operator >
+</Process>
+<operations>
+		<operation type="WriteFile">
+			<operator type="OR">
+				<!-- only extensions with size more than 3 are included starting with M-Z -->
+				<!-- extensions without comments are gathered from external resources -->
+				<condition component="FileItem" property="Extension" condition="ends" value="maestro@pizzacrypts.info" />
+				<condition component="FileItem" property="Extension" condition="ends" value="magic" />
+				<condition component="FileItem" property="Extension" condition="ends" value="magic_software_syndicate" /><!-- Win32/Filecoder.ED -->
+				<condition component="FileItem" property="Extension" condition="ends" value="matrix" /><!-- Win32/Filecoder.NIC -->
+				<condition component="FileItem" property="Extension" condition="ends" value="KEYH0LES" />
+				<condition component="FileItem" property="Extension" condition="ends" value="KEYZ" />
+				<condition component="FileItem" property="Extension" condition="ends" value="MRCR1" /><!-- Win32/Filecoder.Xmas -->
+				<condition component="FileItem" property="Extension" condition="ends" value="neitrino" /><!-- Win32/Filecoder.BM/NDK -->
+				<condition component="FileItem" property="Extension" condition="ends" value="no_more_ransom" /><!-- Win32/Filecoder.ED -->
+				<condition component="FileItem" property="Extension" condition="ends" value="nofiles" /><!-- Win32/Filecoder.NDO -->
+				<condition component="FileItem" property="Extension" condition="ends" value="NORTHPOLE" /><!-- Win32/Gpcode.NAM -->
+				<condition component="FileItem" property="Extension" condition="ends" value="notfoundrans" />
+				<condition component="FileItem" property="Extension" condition="ends" value="odcodc" /><!-- Win32/Filecoder.ODCODC -->
+				<condition component="FileItem" property="Extension" condition="ends" value="only-we_can-help_you" />
+				<condition component="FileItem" property="Extension" condition="ends" value="OMG!" />
+				<condition component="FileItem" property="Extension" condition="ends" value="orgasm" /><!-- Win32/Filecoder.FS -->
+				<condition component="FileItem" property="Extension" condition="ends" value="padcrypt" />
+				<condition component="FileItem" property="Extension" condition="ends" value="paybtcs" />
+				<condition component="FileItem" property="Extension" condition="ends" value="payms" />
+				<condition component="FileItem" property="Extension" condition="ends" value="paymst" />
+				<condition component="FileItem" property="Extension" condition="ends" value="payransom" />
+				<condition component="FileItem" property="Extension" condition="ends" value="PEGS1" /><!-- Win32/Filecoder.Xmas -->
+				<condition component="FileItem" property="Extension" condition="ends" value="plague17" /><!-- Win32/Filecoder.AU -->
+				<condition component="FileItem" property="Extension" condition="ends" value="porno" />
+				<condition component="FileItem" property="Extension" condition="ends" value="proton" /><!-- MSIL/Filecoder.C/AC/BU -->
+				<condition component="FileItem" property="Extension" condition="ends" value="purge" /><!-- Win32/Filecoder.FS -->
+				<condition component="FileItem" property="Extension" condition="ends" value="R16M01D05" />
+				<condition component="FileItem" property="Extension" condition="ends" value="RADAMANT" />
+				<condition component="FileItem" property="Extension" condition="ends" value="RARE1" /><!-- Win32/Filecoder.Xmas -->
+				<condition component="FileItem" property="Extension" condition="ends" value="remind" />
+				<condition component="FileItem" property="Extension" condition="ends" value="rokku" />
+				<condition component="FileItem" property="Extension" condition="ends" value="roto" /><!-- Win32/Filecoder.RotoCrypt -->
+				<condition component="FileItem" property="Extension" condition="ends" value="RR0D" /><!-- Win32/Filecoder.AU -->
+				<condition component="FileItem" property="Extension" condition="ends" value="RROD" /><!-- Win32/Filecoder.AU -->
+				<condition component="FileItem" property="Extension" condition="ends" value="RSNSlocked" />
+				<condition component="FileItem" property="Extension" condition="ends" value="RSplited" />
+				<condition component="FileItem" property="Name" condition="starts" value="ryanqw31@gmail.com___" />
+				<condition component="FileItem" property="Extension" condition="ends" value="safefiles32@mail.ru" /><!-- Win32/Filecoder.NEA -->
+				<condition component="FileItem" property="Extension" condition="ends" value="sanction" />
+				<condition component="FileItem" property="Name" condition="starts" value="Sarah_G@ausi.com___" />
+				<condition component="FileItem" property="Extension" condition="ends" value="SecureCrypted" /><!-- Win32/Filecoder.NHF/NHK/NGY -->
+				<condition component="FileItem" property="Extension" condition="ends" value="shino" />
+				<condition component="FileItem" property="Extension" condition="ends" value="sifreli" /><!-- Win32/Filecoder.TorrentLocker -->
+				<condition component="FileItem" property="Extension" condition="ends" value="Silent" />
+				<condition component="FileItem" property="Extension" condition="ends" value="sport" />
+				<condition component="FileItem" property="Extension" condition="ends" value="strike" /><!-- Win32/Filecoder.FS -->
+				<condition component="FileItem" property="Extension" condition="ends" value="surprise" />
+				<condition component="FileItem" property="Extension" condition="ends" value="svhost" /><!-- Win32/Filecoder.FS -->
+				<condition component="FileItem" property="Extension" condition="ends" value="thedon78@mail.com!!" /><!-- Win32/Filecoder.FT -->
+				<condition component="FileItem" property="Extension" condition="ends" value="torchwood" /><!-- Win32/Filecoder.AU -->
+				<condition component="FileItem" property="Extension" condition="ends" value="toxcrypt" />
+				<condition component="FileItem" property="Extension" condition="ends" value="trun" />
+				<condition component="FileItem" property="Extension" condition="ends" value="umbrecrypt" />
+				<condition component="FileItem" property="Extension" condition="ends" value="unblck@gmail_com" /><!-- BAT/Filecoder.B -->
+				<condition component="FileItem" property="Extension" condition="ends" value="uncrpt@gmail_com" /><!-- BAT/Filecoder.B -->
+				<condition component="FileItem" property="Extension" condition="ends" value="unstyx@gmail_com" /><!-- BAT/Filecoder.B -->
+				<condition component="FileItem" property="Extension" condition="ends" value="vault" /><!-- more variants use this -->
+				<condition component="FileItem" property="Extension" condition="ends" value="Venusf" />
+				<condition component="FileItem" property="Extension" condition="ends" value="Venusp" />
+				<condition component="FileItem" property="Extension" condition="ends" value="ВНИМАНИЕ.TXT" /><!-- Win32/Filecoder.NIW -->
+				<condition component="FileItem" property="Extension" condition="ends" value="wallet" /><!-- Win23/Filecoder.Crysis -->
+				<condition component="FileItem" property="Extension" condition="ends" value="wflx" />
+				<condition component="FileItem" property="Extension" condition="ends" value="Where_my_files.txt" />
+				<condition component="FileItem" property="Extension" condition="ends" value="windows10" /><!-- Win32/Filecoder.ED -->
+				<condition component="FileItem" property="Extension" condition="ends" value="xitreu@india.com" /><!-- Win32/Filecoder.FS -->
+				<condition component="FileItem" property="Extension" condition="ends" value="xenos" /><!-- MSIL/Filecoder.C/AC/BU -->
+				<condition component="FileItem" property="Extension" condition="ends" value="xort" /><!-- BAT/Filecoder.Vault -->
+				<condition component="FileItem" property="Extension" condition="ends" value="xrtn" />
+				<condition component="FileItem" property="Extension" condition="ends" value="xtbl" /><!-- more variants use this -->
+				<condition component="FileItem" property="Extension" condition="ends" value="xxxx" /><!-- Win32/Filecoder.Chimera -->
+				<condition component="FileItem" property="Extension" condition="ends" value="Z81928819" />
+				<condition component="FileItem" property="Extension" condition="ends" value="zcrypt" /><!-- MSIL/Filecoder.C/AC/BU -->
+				<condition component="FileItem" property="Extension" condition="ends" value="zendrf" /><!-- Win32/Filecoder.FS -->
+				<condition component="FileItem" property="Extension" condition="ends" value="zendrz" /><!-- Win32/Filecoder.FS -->
+				<condition component="FileItem" property="Extension" condition="ends" value="zyklon" />
+				<!-- Win32/Filecoder.EQ/NDT - is in separate rule -->
+				<!-- Win32/Filecoder.HydraCrypt - is in separate rule -->
+				<!-- Win32/Filecoder.Locky - is in separate rule -->
+			</operator>
+		</operation>
+</operations>
+</rule>

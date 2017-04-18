@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Unpopular process has started from %Temp% [Z0402]</name>
+	<severity>Warning</severity>
+	<process>
+		<operator type="AND">
+			<condition component="LiveGrid" property="Popularity" condition="less" value="1000" />
+			<condition component="FileItem" property="Path" condition="starts" value="%TMP%" />
+		</operator >
+	</process>
+</rule>

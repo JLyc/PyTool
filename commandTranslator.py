@@ -7,7 +7,6 @@ import win32api
 import errno
 import win32com.client
 
-
 executable_name = {'file_name': 'test.py'}
 try:
     os.makedirs(os.path.dirname("c:/test/skipped.txt"))
@@ -16,6 +15,7 @@ except OSError as e:
         pass
 
 log_file = open("c:/test/skipped.txt", 'a')
+
 
 def generate_executable(type, input_string, input_parent):
     global executable_name
@@ -69,68 +69,85 @@ def parent(parentKey):
         elif property["property"].lower() == 'extension':
             parent['extension'] = decode_property(property, parent['extension'])
         elif property["property"].lower() == 'commandline':
-            parent['command_line'] = decode_property(property, parent['command_line'])
+            parent['command_line'] = decode_property(property,
+                                                     parent['command_line'])
         elif property["property"].lower() == 'signed':
             parent_signed = decode_property(property, parent_signed)
         elif property["property"].lower() == 'popularity':
             log_file.write("popularity " + property["condition"].lower() + "\n")
             if property["condition"].lower() == 'greater':
                 print("ignor popularity\n\n\n\n\n\n\n")
-                log_file.write("popularity: "+parent['file_name']+"\n")
+                log_file.write("popularity: " + parent['file_name'] + "\n")
                 # return
-                #skipp
+                # skipp
             else:
                 log_file.write("ignored2: " + parent['file_name'] + "\n")
 
-    executable_name = {'path': "".join(return_sentence(parent['path'])),
-                       'file_name': "".join(return_sentence(parent['file_name'])),
-                       'extension': "".join(return_sentence(parent['extension'])),
-                       'command_line': "".join(return_sentence(parent['command_line']))}
+    for property in {'path', 'file_name', 'extension', 'command_line'}:
+        executable_name[property] = ''.join(
+            ["".join(item) for item in return_sentence(parent[property])])
+
 
 def return_sentence(path):
-    out = []
+    out = list()
+    path_part = list()
     if not path:
         return []
-    for start in path["starts"]:
-        out.append(start)
+
     for contain in path["contains"]:
-        out.append(contain)
-    for end in path["ends"]:
-        out.append(end)
-    return out
+        path_part.append(contain)
+
+    sub_path = list()
+    for i in max([path["starts"], path["ends"]]):
+        sub_path = [contain for contain in path_part]
+        if i in path["starts"]:
+            sub_path.append(i)
+        else:
+            sub_path.append(i)
+        for j in min([path["starts"], path["ends"]]):
+            if i in path["starts"]:
+                sub_path.insert(0, j)
+            else:
+                sub_path.append(j)
+            out.append(sub_path)
+        if len(min([path["starts"], path["ends"]])) == 0:
+            out.append(sub_path)
+        sub_path = list()
+    return out if out else path_part
+
+
+def sort_registry_path(path):
+    paths = return_sentence(path)
+    for path in paths:
+        if isinstance(path, list):
+            path = "\\".join(path)
+        path = re.sub('\\\\$', '', path)
+        path = re.escape(path)
+
+        if "HKLM" in path:
+            path = path[6:]
+            location = "HKEY_LOCAL_MACHINE"
+        elif "HKCU" in path:
+            path = path[6:]
+            location = "HKEY_CURRENT_USER"
+        else:
+            location = "HKEY_LOCAL_MACHINE"
+            # log_file.write("other: " + path + "\n")
+        reg_modification(location, path)
 
 
 def reg_set_value(registryKey, type):
-    path = {"starts": [] , "contains": [], "ends": []}
+    path = {"starts": [], "contains": [], "ends": []}
     for property in registryKey:
         if property:
             path = decode_property(property, path)
-
-    path = return_sentence(path)
-    if isinstance(path, list):
-        path = "\\".join(path)
-    count = path.count('\\')-1
-    path = re.sub('\\\\$', '', path)
-    path = path.replace('\\','\\\\')
-
-    location = "HKEY_LOCAL_MACHINE"
-    if "HKLM" in path:
-        path = path[6:]
-        location = "HKEY_LOCAL_MACHINE"
-    elif "HKCU" in path:
-        path = path[6:]
-        location = "HKEY_CURRENT_USER"
-    else:
-        # log_file.write("other: " + path + "\n")
-        pass
-
-    reg_modification(location, path)
+    sort_registry_path(path)
 
 
 def write_file_key(writeFileKey, type):
-    path = {"starts": [] , "contains": [], "ends": []}
-    file_name = {"starts": [] , "contains": [], "ends": []}
-    extension = {"starts": [] , "contains": [], "ends": []}
+    path = {"starts": [], "contains": [], "ends": []}
+    file_name = {"starts": [], "contains": [], "ends": []}
+    extension = {"starts": [], "contains": [], "ends": []}
 
     for property in writeFileKey:
         if not property:
@@ -143,10 +160,12 @@ def write_file_key(writeFileKey, type):
             extension = decode_property(property, extension)
         elif property["property"].lower() == 'fullpath':
             full_path = property["value"].rsplit('\\', 1)
-            file_name = {"starts": [] , "contains": [full_path[1]], "ends": []}
-            path = {"starts": [] , "contains": [full_path[0]], "ends": []}
+            file_name = {"starts": [], "contains": [full_path[1]], "ends": []}
+            path = {"starts": [], "contains": [full_path[0]], "ends": []}
         else:
-            print("****************************************** unknow ************ " + property["property"])
+            print(
+                "****************************************** unknow ************ " +
+                property["property"])
 
     path = return_sentence(path)
     if not path:
@@ -158,16 +177,16 @@ def write_file_key(writeFileKey, type):
     if not extension:
         extension = ["txt"]
 
-
-    file_path = "".join(path)
-    file_path = file_path.replace("\\","\\\\")
+    file_path = "".join(["".join(item) for item in path])
+    file_path = file_path.replace("\\", "\\\\")
     file_path = fix_path(file_path)
     if not re.search(r'^[a-xA-X]:', file_path):
         if re.match(r'^\\', file_path):
-            file_path = "c:"+file_path
+            file_path = "c:" + file_path
         else:
             file_path = "c:\\\\" + file_path
-    file_name = "".join(file_name) + "." + "".join(extension)
+    file_name = "".join(["".join(item) for item in file_name]) + "." + "".join(
+        ["".join(item) for item in extension])
     print(file_path)
 
     if type == "WriteFile":
@@ -233,15 +252,20 @@ shutil.rmtree(os.path.join("{0}", "{1}"), True)
 
 def reg_modification(location, key_path):
     write_to_file("""
-from winreg import *
+from _winreg import *
 Registry = ConnectRegistry(None, {0})
 RawKey = CreateKey(Registry, "{1}")
+SetValueEx(RawKey, 'evalue', 0, REG_SZ, "Catch_me")
+RawKey.Close()
 """.format(location, key_path))
 
 
 def write_to_file(code):
-    print(".".join([executable_name['file_name'], 'py']))
-    file = open(".".join([executable_name['file_name'], 'py']), 'w')
+    print(
+    ".".join([executable_name['file_name'].decode('string_escape'), 'py']))
+    file = open(unicode(
+        ".".join([executable_name['file_name'].decode('string_escape'), 'py'])),
+                'a')
     file.write(code)
     file.close()
 
@@ -251,30 +275,32 @@ def fix_path(path):
     print oShell.SpecialFolders("AllUsersStartup")
 
     cheat_list = {"WINDIR": "WINDIR", "DESKTOP": "DESKTOP",
-                  "PROGRAMFILES": "PROGRAMFILES", "LOCALAPPDATA": "LOCALAPPDATA",
-                  "TMP": "TMP", "TEMP": "TEMP", "APPDATA": "APPDATA",
-                  "STARTUP": "STARTUP", "HOME": "HOMEPATH",
-                  "COMMONSTARTUP": "AllUsersStartup", "RemovableDrive": "RemovableDrive",
-                  "SYSTEM": "SYSTEM"
-                  }
+                  "PROGRAMFILES": "PROGRAMFILES",
+                  "LOCALAPPDATA": "LOCALAPPDATA", "TMP": "TMP", "TEMP": "TEMP",
+                  "APPDATA": "APPDATA", "STARTUP": "STARTUP",
+                  "HOME": "HOMEPATH", "COMMONSTARTUP": "AllUsersStartup",
+                  "RemovableDrive": "RemovableDrive", "SYSTEM": "SYSTEM"}
 
     pattern = re.compile(r'(%.*%)+')
-    finded = pattern.search(path)
-    if finded:
-        clear_name = finded.group(0)[1:len(finded.group(0))-1]
+    found = pattern.search(path)
+    if found:
+        clear_name = found.group(0)[1:len(found.group(0)) - 1]
         if clear_name in cheat_list:
-            if  clear_name in os.environ:
-                path = path.replace(finded.group(0), os.environ[cheat_list[clear_name]])
+            if clear_name in os.environ:
+                path = path.replace(found.group(0),
+                                    os.environ[cheat_list[clear_name]])
             elif clear_name == cheat_list["SYSTEM"]:
-                path = path.replace(finded.group(0), os.environ['WINDIR']+'\\System32')
+                path = path.replace(found.group(0),
+                                    os.environ['WINDIR'] + '\\System32')
             elif clear_name == "RemovableDrive":
                 drives = win32api.GetLogicalDriveStrings()
                 drives = drives.split('\000')[:-1]
                 for driver in drives:
-                    if win32file.GetDriveType(driver) == win32file.DRIVE_REMOVABLE:
-                        path = path.replace(finded.group(0), driver)
+                    if win32file.GetDriveType(
+                            driver) == win32file.DRIVE_REMOVABLE:
+                        path = path.replace(found.group(0), driver)
             else:
-                path = path.replace(finded.group(0), oShell.SpecialFolders(cheat_list[clear_name]))
+                path = path.replace(found.group(0), oShell.SpecialFolders(
+                    cheat_list[clear_name]))
 
     return path
-

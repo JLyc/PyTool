@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule>
+  <!--
+  <description>
+    Please verify the process. If it wasn't intended action, user or administrator 
+    didn't install anything please submit the executable for analysis.
+    You may want to block the module to prevent it from executing.
+  </description>
+  -->
+  <Operations>
+    <Operation type="WriteFile">
+      <operator type="AND">
+         <Condition component="FileItem" property="Path" condition="contains" value="\Programs\Startup" />
+         <Condition component="LiveGrid" property="Popularity" condition="less" value="1000" />
+      </operator >
+    </Operation>
+  </Operations>
+  <name>Unpopular process has been added to startup folder [D115]</name>
+</Rule>

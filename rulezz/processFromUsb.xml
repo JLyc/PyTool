@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<rule>
-<name>Process has started from USB drive</name>
-<process>
-	<condition component="FileItem" property="Path" condition="starts" value="%RemovableDrive%" />
-</process>
-</rule>

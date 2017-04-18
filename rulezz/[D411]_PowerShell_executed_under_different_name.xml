@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule>
+  <Process>
+    <operator type="AND">
+      <Condition component="LiveGrid" property="Popularity" condition="greater" value="10000" />
+      <Condition component="Module" property="OriginalFileName" condition="starts" value="PowerShell" />
+      <Condition component="FileItem" property="Name" condition="isnot" value="powershell" />
+    </operator>
+  </Process>
+  <Name>PowerShell executed under different name [D411]</Name>
+</Rule>
