@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Visual Basic monitor dll registry modified [A0130]</name>
+	<severity>Information</severity>
+	<Operations>
+		<Operation type="RegSetValue">
+			<Condition component="RegistryItem" property="Key" condition="contains" value="HKLM\SOFTWARE\Microsoft\VBA\Monitors" />
+		</Operation>
+	</Operations>
+</rule>
+

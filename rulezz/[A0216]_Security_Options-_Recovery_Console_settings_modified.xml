@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Security Options: Recovery Console settings modified [A0216]</name>
+	<severity>Warning</severity>
+	<Operations>
+		<Operation type="RegSetValue">
+			<operator type="AND">		
+				<Condition component="RegistryItem" property="Key" condition="contains" value="Software\Microsoft\Windows NT\CurrentVersion\setup\recoveryconsole" />
+				<operator type="OR">
+					<Condition component="RegistryItem" property="Key" condition="ends" value="securitylevel" />
+					<Condition component="RegistryItem" property="Key" condition="ends" value="SetCommand" />
+				</operator>
+			</operator>
+		</Operation>
+	</Operations>
+</rule>

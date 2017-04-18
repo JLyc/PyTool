@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule>
+  <Process>
+    <operator type="AND">
+      <Condition component="LiveGrid" property="Popularity" condition="less" value="400" />
+    </operator>
+  </Process>
+  <Operations>
+ <Operation type="HttpRequest">
+       <operator type="OR">
+           <Condition component="Network" property="Url" condition="contains" value="pastebin.com" />
+      </operator>
+  </Operation>
+  </Operations>
+  <Name>Unpopular process made http query to pastebin.com [D520]</Name>
+</Rule>

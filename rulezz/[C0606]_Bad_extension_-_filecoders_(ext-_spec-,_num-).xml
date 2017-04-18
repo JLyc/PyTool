@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+<name>Bad extension - filecoders (ext. spec., num.) [C0606]</name>
+<!-- rev 20170111 -->
+<severity>Threat</severity>
+<Process>
+	<operator type="AND">
+		<Condition component="LiveGrid" property="Reputation" condition="greater" value="20" />
+		</operator >
+</Process>
+<operations>
+		<operation type="WriteFile">
+			<operator type="OR">
+				<!-- only extensions with size more than 3 are included; special characters / string starting with numbers -->
+				<!-- extensions without comments are gathered from external resources -->
+				<condition component="FileItem" property="Extension" condition="ends" value="已加密" />
+				<condition component="FileItem" property="Extension" condition="ends" value="암호화됨" />
+				<condition component="FileItem" property="Extension" condition="ends" value="_AiraCropEncrypted!" /><!-- Win32/Filecoder.XRatLocker -->
+				<condition component="FileItem" property="Extension" condition="ends" value="_LSBJ1" />
+				<condition component="FileItem" property="Extension" condition="ends" value="{CRYPTENDBLACKDC}" />
+				<condition component="FileItem" property="Extension" condition="ends" value="1999" /><!-- Win32/Filecoder.FD -->
+				<condition component="FileItem" property="Extension" condition="ends" value="1txt" /><!-- Win32/Filecoder.Enigma -->
+				<condition component="FileItem" property="Extension" condition="ends" value="7h9r" /><!-- MSIL/Filecoder.BX -->
+				<condition component="FileItem" property="Extension" condition="ends" value="8lock8" />
+			</operator>
+		</operation>
+</operations>
+</rule>

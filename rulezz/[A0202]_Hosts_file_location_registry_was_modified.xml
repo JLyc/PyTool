@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Hosts file location registry was modified [A0202]</name>
+	<severity>Warning</severity>
+	<Operations>
+		<Operation type="RegSetValue">
+			<operator type="AND">
+				<operator type="AND">
+					<Condition component="RegistryItem" property="Key" condition="contains" value="HKLM\SYSTEM\ControlSet" />
+					<Condition component="RegistryItem" property="Key" condition="contains" value="services\Tcpip\Parameters" />
+				</operator>
+				<condition component="RegistryItem" property="Key" condition="ends" value="DataBasePath" />
+			</operator>
+		</Operation>
+	</Operations>
+</rule>

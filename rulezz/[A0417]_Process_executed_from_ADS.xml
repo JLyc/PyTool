@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule> 
+	<name>Process executed from ADS [A0417]</name>
+	<severity>Threat</severity>
+	<process>
+		<Condition component="FileItem" property="Path" condition="ends" value=":" />
+	</process>
+</rule>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Non-System process with system process name has started [Z0400]</name>
+	<severity>Warning</severity>
+	<process>
+		<operator type="OR">
+			<operator type="AND">
+				<operator type="OR">
+					<condition component="FileItem" property="Name" condition="is" value="cmd" />
+					<condition component="FileItem" property="Name" condition="is" value="svchost" />
+					<condition component="FileItem" property="Name" condition="is" value="userinit" />
+					<condition component="FileItem" property="Name" condition="is" value="wininit" />
+				</operator>
+				<condition component="FileItem" property="Path" condition="isnot" value="%SYSTEM%\" />
+				<condition component="FileItem" property="Path" condition="isnot" value="%WINDIR%\SysWOW64\" />
+			</operator>
+			<operator type="AND">	
+				<operator type="OR">			
+					<condition component="FileItem" property="Name" condition="is" value="conhost" />
+					<condition component="FileItem" property="Name" condition="is" value="csrss" />
+					<condition component="FileItem" property="Name" condition="is" value="dwm" />
+					<condition component="FileItem" property="Name" condition="is" value="lsass" />
+					<condition component="FileItem" property="Name" condition="is" value="lsm" />
+					<condition component="FileItem" property="Name" condition="is" value="services" />
+					<condition component="FileItem" property="Name" condition="is" value="smss" />
+					<condition component="FileItem" property="Name" condition="is" value="spoolsv" />
+					<condition component="FileItem" property="Name" condition="is" value="winlogon" />
+				</operator>
+				<condition component="FileItem" property="Path" condition="isnot" value="%SYSTEM%\" />
+			</operator>
+		</operator>
+	</process>
+</rule>
+
+

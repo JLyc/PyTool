@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Powershell AllUsers_CurrentHost profile modified [A0118]</name>
+	<severity>Warning</severity>
+	<Operations>
+		<Operation type="WriteFile">
+			<Operator type="or">
+				<Condition component="FileItem" property="FullPath" condition="is" value="%SYSTEM%\WindowsPowerShell\v1.0\Microsoft.PowerShell_profile.ps1" />
+				<Condition component="FileItem" property="FullPath" condition="is" value="%SYSTEM%\WindowsPowerShell\v1.0\Microsoft.PowerShellISE_profile.ps1" />
+				<Condition component="FileItem" property="FullPath" condition="is" value="%WINDIR%\SysWOW64\WindowsPowerShell\v1.0\Microsoft.PowerShell_profile.ps1" />
+				<Condition component="FileItem" property="FullPath" condition="is" value="%WINDIR%\SysWOW64\WindowsPowerShell\v1.0\Microsoft.PowerShellISE_profile.ps1" />
+			</Operator>
+		</Operation>
+	</Operations>
+</rule>

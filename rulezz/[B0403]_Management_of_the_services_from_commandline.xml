@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Management of the services from commandline [B0403]</name>
+	<severity>Information</severity>
+	<parentprocess>
+		<operator type="OR">
+			<operator type="AND">
+				<condition component="FileItem" property="Name" condition="isnot" value="services" />
+				<condition component="FileItem" property="Name" condition="isnot" value="svchost" />
+			</operator>
+			<condition component="LiveGrid" property="Popularity" condition="less" value="10000" />
+		</operator>		
+	</parentprocess>
+	<process>
+		<operator type="AND">
+			<condition component="FileItem" property="Name" condition="is" value="sc" />
+			<operator type="OR">
+				<condition component="ProcessInfo" property="CommandLine" condition="contains" value="create" />
+				<condition component="ProcessInfo" property="CommandLine" condition="contains" value="delete" />
+				<condition component="ProcessInfo" property="CommandLine" condition="contains" value="config" />
+				<condition component="ProcessInfo" property="CommandLine" condition="contains" value="start" />
+				<condition component="ProcessInfo" property="CommandLine" condition="contains" value="stop" />
+				<condition component="ProcessInfo" property="CommandLine" condition="contains" value="pause" />
+				<condition component="ProcessInfo" property="CommandLine" condition="contains" value="continue" />
+			</operator>
+		</operator>
+	</process>
+</rule>

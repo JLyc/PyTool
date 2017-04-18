@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Windows Firewall DoNotAllowExceptions modified [A0220]</name>
+	<severity>Warning</severity>
+	<operations>
+		<operation type="RegSetValue">
+			<operator type="AND">		
+				<condition component="RegistryItem" property="Key" condition="ends" value="DoNotAllowExceptions" />
+				<condition component="RegistryItem" property="Key" condition="starts" value="HKLM\SYSTEM\ControlSet" />
+				<condition component="RegistryItem" property="Key" condition="contains" value="Services\SharedAccess\Parameters\FirewallPolicy\" />
+			</operator>
+		</operation>
+	</operations>
+</rule>

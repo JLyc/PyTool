@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Powershell AllUsers_AllHosts profile modified [A0117]</name>
+	<severity>Warning</severity>
+	<Operations>
+		<Operation type="WriteFile">
+			<Operator type="or">
+				<Condition component="FileItem" property="FullPath" condition="is" value="%SYSTEM\WindowsPowerShell\v1.0\profile.ps1" />
+				<Condition component="FileItem" property="FullPath" condition="is" value="%WINDIR%\SysWOW64\WindowsPowerShell\v1.0\profile.ps1" />
+			</Operator>
+		</Operation>
+	</Operations>
+</rule>

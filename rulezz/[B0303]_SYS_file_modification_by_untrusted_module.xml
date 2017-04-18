@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>SYS file modification by untrusted module [B0303]</name>
+	<severity>Warning</severity>
+	<process>
+		<condition component="Module" property="Signed" condition="is" value="Untrusted" /> <!-- change for TrustedByEndpoint when implemented -->					
+	</process>
+	<operations>
+		<operation type="WriteFile">
+			<operator type="AND">
+				<condition component="FileItem" property="Extension" condition="is" value="sys" />
+				<condition component="FileItem" property="Name" condition="isnot" value="hiberfil" />
+				<condition component="FileItem" property="Name" condition="isnot" value="pagefile" />
+			</operator>
+		</operation>
+	</operations>
+</rule>

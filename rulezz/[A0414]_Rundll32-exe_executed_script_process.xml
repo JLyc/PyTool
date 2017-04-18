@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule> 
+	<name>Rundll32.exe executed script process [A0414]</name>
+	<severity>Warning</severity>
+	<ParentProcess>
+		<Condition component="FileItem" property="Name" condition="is" value="rundll32" />
+	</ParentProcess>
+	<Process>
+		<operator type="OR">
+			<Condition component="FileItem" property="Name" condition="is" value="cmd" />
+			<Condition component="FileItem" property="Name" condition="is" value="wscript" />
+			<Condition component="FileItem" property="Name" condition="is" value="cscript" />
+			<Condition component="FileItem" property="Name" condition="is" value="ntvdm" />
+			<Condition component="FileItem" property="Name" condition="is" value="powershell" />
+		</operator>
+	</Process>
+</rule>

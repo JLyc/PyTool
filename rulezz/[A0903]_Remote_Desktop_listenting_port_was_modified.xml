@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Remote Desktop listenting port was modified [A0903]</name>
+	<severity>Information</severity>
+	<operations>
+		<operation type="RegSetValue">
+			<operator type="AND">
+				<condition component="RegistryItem" property="Key" condition="ends" value="PortNumber" />
+				<condition component="RegistryItem" property="Key" condition="starts" value="HKLM\SYSTEM\ControlSet" />
+				<operator type="OR">
+					<condition component="RegistryItem" property="Key" condition="contains" value="Control\Terminal Server\WinStations\RDP-Tcp" />
+					<condition component="RegistryItem" property="Key" condition="contains" value="Control\Terminal Server\Wds\rdpwd\Tds\tcp" />
+				</operator>
+			</operator>		
+		</operation>
+	</operations>
+</rule>

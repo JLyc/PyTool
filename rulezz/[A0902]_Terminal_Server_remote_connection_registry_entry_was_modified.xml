@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Terminal Server remote connection registry entry was modified [A0902]</name>
+	<severity>Warning</severity>
+	<Operations>
+		<Operation type="RegSetValue">
+			<operator type="AND">
+					<condition component="RegistryItem" property="Key" condition="ends" value="fDenyTSConnections" />
+					<Condition component="RegistryItem" property="Key" condition="contains" value="HKLM\SYSTEM\ControlSet" />
+					<Condition component="RegistryItem" property="Key" condition="contains" value="Control\Terminal Server" />
+			</operator>		
+		</Operation>
+	</Operations>
+</rule>

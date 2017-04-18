@@ -1,0 +1,14 @@
+<Rule>
+<Severity>Warning</Severity>
+  <name>Shadow copies delete - VSSAdmin [C0401]</name>
+  <Process >
+    <operator type="AND">
+      <!-- <Condition component="FileItem" property="FullPath" condition="is" value="%SYSTEM%\cmd.exe" /> -->
+      <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="vssadmin.exe" />
+      <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="Delete" />
+      <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="Shadows" />
+      <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="/All" />
+      <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="/Quiet" />
+    </operator>
+  </Process>
+</Rule>

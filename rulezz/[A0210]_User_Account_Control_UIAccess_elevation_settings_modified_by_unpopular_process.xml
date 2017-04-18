@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>User Account Control UIAccess elevation settings modified by unpopular process [A0210]</name>
+	<severity>Information</severity>
+	<process>
+		<condition component="LiveGrid" property="Popularity" condition="less" value="100000" />
+	</process>
+	<operations>
+		<operation type="RegSetValue">
+			<operator type="AND">		
+				<condition component="RegistryItem" property="Key" condition="contains" value="Software\Microsoft\Windows\CurrentVersion\Policies\SYSTEM" />
+				<operator type="OR">
+					<condition component="RegistryItem" property="Key" condition="ends" value="EnableSecureUIAPaths" />
+					<condition component="RegistryItem" property="Key" condition="ends" value="EnableUIADesktopToggle" />
+				</operator>
+			</operator>
+		</operation>
+	</operations>
+</rule>

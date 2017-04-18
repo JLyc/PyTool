@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>ShellIconOverlayIdentifiers registry modified by unpopular process [A0113]</name>
+	<severity>Warning</severity>
+	<process>
+		<condition component="LiveGrid" property="Popularity" condition="less" value="10000" />
+	</process>
+	<operations>
+		<operation type="RegSetValue">
+			<operator type="OR">		
+				<condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ShellIconOverlayIdentifiers" />
+				<condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\ShellIconOverlayIdentifiers" />
+			</operator>
+		</operation>
+	</operations>
+</rule>

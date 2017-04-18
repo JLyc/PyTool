@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Process "explorer.exe" was executed from non-%WINDIR% folder [A0409]</name>
+	<severity>Warning</severity>
+	<Process>
+		<operator type="AND">
+			<Condition component="FileItem" property="Name" condition="is" value="explorer" />
+			<operator type="AND">
+				<Condition component="FileItem" property="Path" condition="isnot" value="%WINDIR%" />
+				<Condition component="FileItem" property="Path" condition="isnot" value="%WINDIR%\SysWOW64\" />
+			</operator>	
+		</operator>
+	</Process>
+</rule>

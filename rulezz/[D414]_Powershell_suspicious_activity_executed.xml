@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule>
+  <Severity>Information</Severity>
+  <Process>
+    <operator type="AND">
+      <Condition component="LiveGrid" property="Popularity" condition="greater" value="10000" />
+      <Condition component="Module" property="OriginalFileName" condition="starts" value="PowerShell" />
+      <Condition component="ProcessInfo" property="CommandLine" condition="notcontains" value="\Windows\CCM\SystemTemp\" />
+      <operator type="OR">
+        <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="-NonI" />
+        <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="-NoP" />
+        <Condition component="ProcessInfo" property="CommandLine" condition="contains" value="-E" />
+      </operator>
+  </operator>
+  </Process>
+  <Name>Powershell suspicious activity executed [D414]</Name>
+</Rule>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+<name>Win32/Filecoder.Locky [C0602]</name>
+<severity>Threat</severity>
+ <Process>
+    <operator type="AND">
+        <Condition component="LiveGrid" property="Reputation" condition="greater" value="20" />
+    </operator >
+</Process>
+<operations>
+    <operation type="WriteFile">
+        <operator type="OR">
+            <operator type="AND">
+                <condition component="FileItem" property="Extension" condition="is" value="locky" />
+                <condition component="FileItem" property="Name" condition="notcontains" value="X" />
+            </operator>
+            <operator type="AND">
+                <condition component="FileItem" property="Extension" condition="is" value="zepto" />
+                <condition component="FileItem" property="Name" condition="contains" value="-" />
+            </operator>
+            <operator type="AND">
+                <condition component="FileItem" property="Extension" condition="is" value="odin" />
+                <condition component="FileItem" property="Name" condition="contains" value="-" />
+            </operator>
+            <operator type="AND">
+                <condition component="FileItem" property="Extension" condition="is" value="thor" />
+                <condition component="FileItem" property="Name" condition="contains" value="-" />
+            </operator>
+            <operator type="AND">
+                <condition component="FileItem" property="Extension" condition="is" value="shit" />
+                <condition component="FileItem" property="Name" condition="contains" value="-" />
+            </operator>
+            <operator type="AND">
+                <condition component="FileItem" property="Extension" condition="is" value="aesir" />
+                <condition component="FileItem" property="Name" condition="contains" value="-" />
+            </operator>
+            <operator type="AND">
+                <condition component="FileItem" property="Extension" condition="is" value="zzzzz" />
+                <condition component="FileItem" property="Name" condition="contains" value="-" />
+            </operator>
+            <operator type="AND">
+                <condition component="FileItem" property="Extension" condition="is" value="osiris" />
+                <condition component="FileItem" property="Name" condition="contains" value="--" />
+            </operator>
+        </operator>
+    </operation>
+</operations>
+</rule>

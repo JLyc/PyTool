@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule>
+  <!--
+  <description>
+    Common behaviour of Spyware and  Adware variants.
+    If you can't confirm that this file is clean please submit it for analysis immediately.
+    You may want to block the process module to prevent it from executing.
+  </description>
+  -->
+  <Process>
+    <operator type="AND">
+      <Condition component="LiveGrid" property="Popularity" condition="less" value="100" />
+    </operator>
+  </Process>
+  <Operations>
+ <Operation type="HttpRequest">
+       <operator type="OR">
+           <Condition component="Network" property="Url" condition="contains" value="/upload.php" />
+           <Condition component="Network" property="Url" condition="contains" value="/stat.php" />
+           <Condition component="Network" property="Url" condition="contains" value="/contador.php" />
+           <Condition component="Network" property="Url" condition="contains" value="/check.php" />
+           <Condition component="Network" property="Url" condition="contains" value="/gate.php" />
+           <Condition component="Network" property="Url" condition="contains" value="/log.php" />
+           <Condition component="Network" property="Url" condition="contains" value="/CTShield.DLL" />
+           <Condition component="Network" property="Url" condition="contains" value="/TrackerUI.DLL" />
+           <Condition component="Network" property="Url" condition="contains" value="/particleman.DLL" />
+      </operator>
+  </Operation>
+  </Operations>
+  <Name>Unpopular process made suspicious http query [D519]</Name>
+</Rule>

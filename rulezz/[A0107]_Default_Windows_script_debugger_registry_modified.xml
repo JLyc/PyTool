@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Default Windows script debugger registry modified [A0107]</name>
+	<severity>Information</severity>
+	<Operations>
+		<Operation type="RegSetValue">
+			<operator type="AND">		
+				<Condition component="RegistryItem" property="Key" condition="ends" value="LocalServer32" />
+				<Condition component="RegistryItem" property="Key" condition="contains" value="Software\Classes\CLSID\{834128A2-51F4-11D0-8F20-00805F2CD064}" />
+			</operator>
+		</Operation>
+	</Operations>
+</rule>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>RunServices AutoStart registry entry was modified [A0123]</name>
+	<severity>Warning</severity>
+	<Operations>
+		<Operation type="RegSetValue">
+			<operator type="OR">		
+				<Condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Microsoft\Windows\CurrentVersion\RunServices" />
+				<Condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Microsoft\Windows\CurrentVersion\RunServicesOnce" />
+			</operator>
+		</Operation>
+	</Operations>
+</rule>

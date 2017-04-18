@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rule>
+  <!--
+  <description>
+    Common malicious behaviour intended to disguise the executable file type. 
+    If you can't verify that this file is clean please submit if for analysis.
+    You may want to block the module to prevent it from executing.
+  </description>
+  -->
+  <Process>
+    <operator type="AND">
+      <Condition component="LiveGrid" property="Popularity" condition="less" value="1000" />
+      <operator type="OR">
+        <Condition component="FileItem" property="Extension" condition="is" value="jpg.exe" />
+        <Condition component="FileItem" property="Extension" condition="is" value="jpg.scr" />
+        <Condition component="FileItem" property="Extension" condition="is" value="bmp.exe" />
+        <Condition component="FileItem" property="Extension" condition="is" value="bmp.scr" />
+        <Condition component="FileItem" property="Extension" condition="is" value="png.exe" />
+        <Condition component="FileItem" property="Extension" condition="is" value="png.scr" />
+        <Condition component="FileItem" property="Extension" condition="is" value="pdf.exe" />
+        <Condition component="FileItem" property="Extension" condition="is" value="pdf.scr" />
+        <Condition component="FileItem" property="Extension" condition="is" value="doc.exe" />
+        <Condition component="FileItem" property="Extension" condition="is" value="doc.scr" />
+        <Condition component="FileItem" property="Extension" condition="is" value="docx.exe" />
+        <Condition component="FileItem" property="Extension" condition="is" value="docx.scr" />
+        <Condition component="FileItem" property="Extension" condition="is" value="xls.exe" />
+        <Condition component="FileItem" property="Extension" condition="is" value="xls.scr" />
+        <Condition component="FileItem" property="Extension" condition="is" value="xlsx.exe" />
+        <Condition component="FileItem" property="Extension" condition="is" value="xlsx.scr" />
+        <Condition component="FileItem" property="Extension" condition="is" value="ppt.exe" />
+        <Condition component="FileItem" property="Extension" condition="is" value="ppt.scr" />
+        <Condition component="FileItem" property="Extension" condition="is" value="pptx.exe" />
+        <Condition component="FileItem" property="Extension" condition="is" value="pptx.scr" />
+        <Condition component="FileItem" property="Extension" condition="is" value="cmd" />
+        <Condition component="FileItem" property="Extension" condition="is" value="pif" />
+        <Condition component="FileItem" property="Extension" condition="is" value="lnk" />
+      </operator>
+    </operator>
+  </Process>
+  <name>Unpopular process with a suspicious extension has started [D423]</name>
+</Rule>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule> 
+	<name>Process regsvr32.exe creates network connection [A0503]</name>
+	<severity>Warning</severity>
+	<process>
+		<Condition component="FileItem" property="Name" condition="is" value="regsvr32" />
+	</process>
+	<Operations>
+		<Operation type="TcpIpConnect">
+			<Condition component="Network" property="RemotePort" condition="isnotempty"/>
+		</Operation>
+	</Operations>
+</rule>

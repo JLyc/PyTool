@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>UserInitMprLogonScript registry modified [A0129]</name>
+	<severity>Warning</severity>
+	<Operations>
+		<Operation type="RegSetValue">
+			<condition component="RegistryItem" property="Key" condition="is" value="HKCU\Environment\UserInitMprLogonScript" />
+		</Operation>
+	</Operations>
+</rule>

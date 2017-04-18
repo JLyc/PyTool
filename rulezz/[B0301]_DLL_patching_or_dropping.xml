@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>DLL patching or dropping [B0301]</name>
+	<severity>Warning</severity>
+	<process>
+		<operator type="AND">
+			<operator type="OR">
+				<condition component="LiveGrid" property="Reputation" condition="greater" value="30" />
+				<condition component="LiveGrid" property="Popularity" condition="less" value="1000" />
+			</operator>
+			<condition component="Module" property="Signed" condition="is" value="Untrusted" /> <!-- change for TrustedByEndpoint when implemented -->			
+		</operator>
+	</process>
+	<operations>
+		<operation type="WriteFile">
+			<condition component="FileItem" property="Extension" condition="is" value="dll" />
+		</operation>
+	</operations>
+</rule>

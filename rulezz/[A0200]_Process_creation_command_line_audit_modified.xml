@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Process creation command line audit modified [A0200]</name>
+	<severity>Information</severity>
+	<Operations>
+		<Operation type="RegSetValue">
+			<operator type="AND">
+				<Condition component="RegistryItem" property="Key" condition="contains" value="SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Audit" />
+				<Condition component="RegistryItem" property="Key" condition="ends" value="ProcessCreationIncludeCmdLine_Enabled" />
+			</operator>
+		</Operation>
+	</Operations>
+</rule>

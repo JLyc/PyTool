@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Remote Desktop ClxDllPath registry modified [A0900]</name>
+	<severity>Warning</severity>
+	<Operations>
+		<Operation type="RegSetValue">
+			<condition component="RegistryItem" property="Key" condition="ends" value="HKLM\SOFTWARE\Microsoft\Terminal Server Client\ClxDllPath" />
+		</Operation>
+	</Operations>
+</rule>

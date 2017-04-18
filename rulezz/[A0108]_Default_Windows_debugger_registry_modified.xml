@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Default Windows debugger registry modified [A0108]</name>
+	<severity>Information</severity>
+	<Operations>
+		<Operation type="RegSetValue">
+			<operator type="OR">		
+				<Condition component="RegistryItem" property="Key" condition="ends" value="HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AeDebug\Debugger" />
+				<Condition component="RegistryItem" property="Key" condition="ends" value="HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\AeDebug\Debugger" />
+			</operator>
+		</Operation>
+	</Operations>
+</rule>

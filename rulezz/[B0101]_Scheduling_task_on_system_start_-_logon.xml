@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rule>
+	<name>Scheduling task on system start / logon [B0101]</name>
+	<severity>Information</severity>
+	<process>
+		<operator type="AND">
+			<condition component="FileItem" property="Name" condition="is" value="schtasks" />
+			<operator type="OR">
+				<condition component="ProcessInfo" property="CommandLine" condition="contains" value="onstart" />
+				<condition component="ProcessInfo" property="CommandLine" condition="contains" value="onlogon" />
+			</operator>
+		</operator>
+	</process>
+</rule>
