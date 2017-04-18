@@ -1,0 +1,11 @@
+a0207_powershell_script_block_logging_modified.xml
+a0209_powershell_transcription_logging_modified.xml
+a0219_startup_folder_location_was_modified.xml
+[A0304]_Accessibility_Features_file_modified.xml
+a0415_wscript_created_process.xml
+a0500_cscript_created_network_connection.xml
+B0601_rar_encrypts_and_deletes_files.xml
+[D412]_Powershell_suspicious_activity_executed.xml
+[D413]_Powershell_suspicious_activity_executed.xml
+[Z0405]_Process_started_from_desktop.xml
+processFromTemp.xml
