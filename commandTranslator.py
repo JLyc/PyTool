@@ -101,11 +101,11 @@ def return_sentence(path):
     for i in max([path["starts"], path["ends"]]):
         sub_path = [contain for contain in path_part]
         if i in path["starts"]:
-            sub_path.append(i)
+            sub_path.insert(0, i)
         else:
             sub_path.append(i)
         for j in min([path["starts"], path["ends"]]):
-            if i in path["starts"]:
+            if j in path["starts"]:
                 sub_path.insert(0, j)
             else:
                 sub_path.append(j)
@@ -132,6 +132,7 @@ def sort_registry_path(path):
             location = "HKEY_CURRENT_USER"
         else:
             location = "HKEY_LOCAL_MACHINE"
+            path = re.sub('^\\\{2}', '', path)
             # log_file.write("other: " + path + "\n")
         reg_modification(location, path)
 
