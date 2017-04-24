@@ -125,14 +125,14 @@ def sort_registry_path(path):
         # path = re.escape(path)
 
         if "HKLM" in path:
-            path = path[6:]
+            path = path.replace("HKLM\\", "")
             location = "HKEY_LOCAL_MACHINE"
         elif "HKCU" in path:
-            path = path[6:]
+            path = path.replace("HKCU\\", "")
             location = "HKEY_CURRENT_USER"
         else:
-            location = "HKEY_LOCAL_MACHINE"
-            path = re.sub('^\\\{2}', '', path)
+            location = "HKEY_CURRENT_USER"
+            path = re.sub("^\\\\", '', path)
             # log_file.write("other: " + path + "\n")
         reg_modification(location, path)
 
@@ -170,7 +170,7 @@ def write_file_key(writeFileKey, type):
 
     path = return_sentence(path)
     if not path:
-        path = ["c:\\\\work"]
+        path = ["c:\work"]
     file_name = return_sentence(file_name)
     if not file_name:
         file_name = ["test"]
@@ -185,7 +185,7 @@ def write_file_key(writeFileKey, type):
         if re.match(r'^\\', file_path):
             file_path = "c:" + file_path
         else:
-            file_path = "c:\\\\" + file_path
+            file_path = "c:\\" + file_path
     file_name = "".join(["".join(item) for item in file_name]) + "." + "".join(
         ["".join(item) for item in extension])
     print(file_path)
