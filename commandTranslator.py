@@ -122,7 +122,7 @@ def sort_registry_path(path):
         if isinstance(path, list):
             path = "\\".join(path)
         path = re.sub('\\\\$', '', path)
-        path = re.escape(path)
+        # path = re.escape(path)
 
         if "HKLM" in path:
             path = path[6:]
@@ -263,10 +263,8 @@ RawKey.Close()
 
 def write_to_file(code):
     print(
-    ".".join([executable_name['file_name'].decode('string_escape'), 'py']))
-    file = open(unicode(
-        ".".join([executable_name['file_name'].decode('string_escape'), 'py'])),
-                'a')
+    ".".join([executable_name['file_name'], 'py']))
+    file = open(".".join([executable_name['file_name'], 'py']), 'a')
     file.write(code)
     file.close()
 

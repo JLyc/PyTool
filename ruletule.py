@@ -108,8 +108,8 @@ def formateStringForDict(command):
 
 count = 0
 # foldr = 'test'
-foldr = 'rulezz'
-# foldr = 'compile'
+# foldr = 'rulezz'
+foldr = 'compile'
 # print sys.argv
 # foldr = sys.argv[2]
 
