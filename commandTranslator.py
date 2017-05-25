@@ -121,20 +121,23 @@ def sort_registry_path(path):
     for path in paths:
         if isinstance(path, list):
             path = "\\".join(path)
-        path = re.sub('\\\\$', '', path)
+        path_short = path.split('\\')
+        key = path_short.pop(len(path_short)-1)
+        path_short = '\\'.join(path_short)
+        path = [(re.sub('\\\\$', '', path)), re.sub('\\\\$', '', path_short)]
         # path = re.escape(path)
-
-        if "HKLM" in path:
-            path = path.replace("HKLM\\", "")
-            location = "HKEY_LOCAL_MACHINE"
-        elif "HKCU" in path:
-            path = path.replace("HKCU\\", "")
-            location = "HKEY_CURRENT_USER"
-        else:
-            location = "HKEY_CURRENT_USER"
-            path = re.sub("^\\\\", '', path)
-            # log_file.write("other: " + path + "\n")
-        reg_modification(location, path)
+        for reg_item in path:
+            if "HKLM" in reg_item:
+                reg_item = reg_item.replace("HKLM\\", "")
+                location = "HKEY_LOCAL_MACHINE"
+            elif "HKCU" in reg_item:
+                reg_item = reg_item.replace("HKCU\\", "")
+                location = "HKEY_CURRENT_USER"
+            else:
+                location = "HKEY_CURRENT_USER"
+                reg_item = re.sub("^\\\\", '', reg_item)
+                # log_file.write("other: " + path + "\n")
+            reg_modification(location, reg_item, key)
 
 
 def reg_set_value(registryKey, type):
@@ -169,14 +172,13 @@ def write_file_key(writeFileKey, type):
                 property["property"])
 
     path = return_sentence(path)
-    if not path:
-        path = ["c:\work"]
+    if len(path) == 0:
+        path = [['C:\\']]
     file_name = return_sentence(file_name)
-    if not file_name:
-        file_name = ["test"]
+    if len(file_name) == 0:
+        file_name = [['test']]
     extension = return_sentence(extension)
-    if not extension:
-        extension = ["txt"]
+
 
     file_path = "".join(["".join(item) for item in path])
     file_path = file_path.replace("\\", "\\\\")
@@ -186,8 +188,9 @@ def write_file_key(writeFileKey, type):
             file_path = "c:" + file_path
         else:
             file_path = "c:\\" + file_path
-    file_name = "".join(["".join(item) for item in file_name]) + "." + "".join(
-        ["".join(item) for item in extension])
+    file_name = "".join(["".join(item) for item in file_name])
+    if len(extension):
+        file_name += '.' + "".join(["".join(item) for item in extension])
     print(file_path)
 
     if type == "WriteFile":
@@ -247,18 +250,18 @@ def delete_file(file_path, file_name):
     write_to_file("""
 import shutil
 import os
-shutil.rmtree(os.path.join("{0}", "{1}"), True)
+os.remove(os.path.join("{0}", "{1}")
 """.format(file_path, file_name))
 
 
-def reg_modification(location, key_path):
+def reg_modification(location, key_path, key):
     write_to_file("""
 from _winreg import *
 Registry = ConnectRegistry(None, {0})
 RawKey = CreateKey(Registry, "{1}")
-SetValueEx(RawKey, 'evalue', 0, REG_SZ, "Catch_me")
+SetValueEx(RawKey, '{2}', 0, REG_SZ, "Catch_me")
 RawKey.Close()
-""".format(location, key_path))
+""".format(location, key_path, key))
 
 
 def write_to_file(code):

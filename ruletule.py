@@ -1,15 +1,14 @@
 import os
 import re
+import subprocess
 import win32file
-import xml
+from xml.dom import minidom, Node
+from xml.dom.minicompat import NodeList
 
 import pywintypes
 from cx_Freeze import setup, Executable
-from shutil import copy
 
 import commandTranslator
-from xml.dom import minidom, Node
-from xml.dom.minicompat import NodeList
 
 
 def childElements(node):
@@ -107,11 +106,8 @@ def formateStringForDict(command):
     return temp
 
 count = 0
-# foldr = 'test'
-# foldr = 'rulezz'
-foldr = 'compile'
-# print sys.argv
-# foldr = sys.argv[2]
+foldr = 'rulezz'
+# foldr = 'compile'
 
 def readable(name):
     # name = "Active Setup autostart registry entry was modified [A0100]"
@@ -176,21 +172,12 @@ for filename in os.listdir(foldr):
                     while (hasChildElements(child)):
                         construcRule(child1, child, sentence)
 
-
-
-    print(formateStringForDict(operationType))
-
-    print("parent"+formateStringForDict(parentProcessOperation))
-
     parentCommand = formateStringForDict(parentProcessOperation)
-    print("process"+formateStringForDict(processOperation))
     processCommand = formateStringForDict(processOperation)
 
     name = doc.getElementsByTagName('Name')
-    # print type(name)
     if len(name) == 0:
         name = doc.getElementsByTagName('name')
-    # print name[0].firstChild.nodeValue
     name = readable(name[0].firstChild.nodeValue)
 
     if not operation:
@@ -202,7 +189,7 @@ for filename in os.listdir(foldr):
         command = formateStringForDict(command)
         if not parentCommand:
             count += 1
-            parent_name = "'property' : 'Name' ,'component' : 'FileItem' ,'value' : '{0}' ,'condition' : 'is'".format(name)
+            parent_name = "'property' : 'Name' ,'component' : 'FileItem' ,'value' : '{0}' ,'condition' : 'is'".format(name+ str(count))
         else:
             parent_name = parentCommand
         executable_name = commandTranslator.generate_executable(operationType, command, parent_name)
@@ -211,19 +198,24 @@ for filename in os.listdir(foldr):
             continue
 
         build_exe_options = {"packages": ["os"], "excludes": ["tkinter"],
-                             "build_exe": "c:\\test\\" + executable_name['file_name']+ str(count), "silent": True}
+                             "build_exe": "c:\\test\\" + executable_name['file_name'], "silent": True}
         setup(name="ESET", version="0.1", description="ESET testing tool",
               options={"build_exe": build_exe_options},
               executables=[Executable(executable_name['file_name']+'.py')])
 
 
-        file = open(unicode(".".join(["c:\\test\\" + executable_name['file_name'] + str(count)+ "\\help", 'txt'])), 'w')
+        file = open(unicode(".".join(["c:\\test\\" + executable_name['file_name']+ "\\help", 'txt'])), 'w')
         file.write(str(executable_name))
         file.close()
 
-        win32file.CopyFile(foldr + "/" + filename, "c:\\test\\" + executable_name['file_name'] + str(count) + "\\" + name, 0)
+        win32file.CopyFile(foldr + "/" + filename, "c:\\test\\" + executable_name['file_name'] + "\\" + name + ".xml", 0)
+
+        subprocess.call(
+            ["SIGNTOOL.EXE", "sign", "/F", "MDM_cert.pfx", "/P", "nbusr123",
+             "/T", "http://timestamp.digicert.com",
+             "c:\\test\\" + executable_name['file_name']+ "\\" + executable_name['file_name'] + '.exe', ])
 
         try:
-            win32file.MoveFile(executable_name['file_name'] + '.py', "c:\\test\\" + executable_name['file_name'] + str(count) + "\\" + executable_name['file_name'] + '.py')
+            win32file.MoveFile(executable_name['file_name'] + '.py', "c:\\test\\" + executable_name['file_name']+ "\\" + executable_name['file_name'] + '.py')
         except pywintypes.error as e:
             print "file exist skipping" + str(e)
